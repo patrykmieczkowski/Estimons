@@ -81,7 +81,6 @@ public class BeaconMotionManager {
                                         Log.e(TAG, "error code: " + exception.errorCode);
                                         if (listener != null)
                                             listener.broadcastActivity("MOTION DISABLED");
-
                                     }
                                 });
 
