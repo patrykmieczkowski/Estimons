@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.aghacks.estimons.MainActivity;
 import com.aghacks.estimons.R;
-import com.aghacks.estimons.lukmarr.Constants;
+import com.aghacks.estimons.Constants;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;

@@ -1,4 +1,4 @@
-package com.aghacks.estimons.lukmarr;
+package com.aghacks.estimons;
 
 import com.estimote.sdk.Region;
 

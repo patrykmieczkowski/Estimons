@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.aghacks.estimons.R;
 import com.aghacks.estimons.database.DetectedPoke;
-import com.aghacks.estimons.lukmarr.Constants;
+import com.aghacks.estimons.Constants;
 import com.aghacks.estimons.lukmarr.ble.EstimonManager;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
