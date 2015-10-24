@@ -1,7 +1,10 @@
 package com.aghacks.estimons;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,14 +18,16 @@ import com.aghacks.estimons.database.DetectedPoke;
 import com.aghacks.estimons.lukmarr.Constants;
 import com.aghacks.estimons.lukmarr.zawadiaka.ZawadiakaActivity;
 import com.estimote.sdk.Beacon;
+import com.estimote.sdk.Nearable;
 
 import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     private ImageView estimonMainImage;
-    private TextView beaconFarText;
-    private int estimonRange = 0;
+    private TextView beaconFarText, nameText;
+    FloatingActionButton attackButton;
+    private int estimonRange = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +37,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getViews();
+        Nearable a;
+        Beacon b;
 
         setUpEstimon((Beacon) getIntent().getParcelableExtra(Constants.NEARABLE_ESTIMON));
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
 
@@ -79,12 +78,21 @@ public class MainActivity extends AppCompatActivity {
     private void getViews() {
         estimonMainImage = (ImageView) findViewById(R.id.estimon_main_image);
         beaconFarText = (TextView) findViewById(R.id.beacon_far_text);
-        estimonMainImage.setOnLongClickListener(new View.OnLongClickListener() {
+
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
+        nameText = (TextView) findViewById(R.id.estimon_name_text);
+        nameText.setTypeface(myTypeface);
+
+        attackButton = (FloatingActionButton) findViewById(R.id.attack_button);
+        attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ZawadiakaActivity.class);
                 startActivity(i);
-                return false;
+
+                // if no nearby found show snackbar
+//                Snackbar.make(view, "No nearby enemies found", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
     }
@@ -102,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "rssi: " + parcelableExtra.getRssi());
         Log.d(TAG, "describeContents: " + parcelableExtra.describeContents());
 
+
         switch (estimonRange) {
             case Config.ESTIMON_FAR:
                 // far
@@ -117,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
                 if (beaconFarText.getVisibility() == View.VISIBLE)
                     beaconFarText.setVisibility(View.GONE);
 
-                estimonMainImage.getLayoutParams().height = 700;
-                estimonMainImage.requestLayout();
+//                estimonMainImage.getLayoutParams().height = 700;
+//                estimonMainImage.requestLayout();
                 break;
             case Config.ESTIMON_NEAR:
                 // near
@@ -127,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
                 if (beaconFarText.getVisibility() == View.VISIBLE)
                     beaconFarText.setVisibility(View.GONE);
 
-                estimonMainImage.getLayoutParams().height = 1200;
-                estimonMainImage.requestLayout();
+//                estimonMainImage.getLayoutParams().height = 1200;
+//                estimonMainImage.requestLayout();
                 break;
             default:
                 // error occurred

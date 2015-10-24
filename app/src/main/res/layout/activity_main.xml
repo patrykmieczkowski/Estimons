@@ -23,9 +23,31 @@
 
     <include layout="@layout/content_main" />
 
-    <!--<android.support.design.widget.FloatingActionButton android:id="@+id/fab"-->
-    <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"-->
-    <!--android:src="@android:drawable/ic_dialog_email" />-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/attack_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/attack_icon"
+        app:backgroundTint="@color/attack_icon_color" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/warm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/warm_icon"
+        app:backgroundTint="@color/warm_icon_color" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/eat_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/fish_id_icon"
+        app:backgroundTint="@color/fish_icon_color" />
 
 </android.support.design.widget.CoordinatorLayout>
