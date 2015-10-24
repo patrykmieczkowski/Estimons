@@ -8,10 +8,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private ImageView estimonMainImage;
+    private TextView beaconFarText;
+    private int estimonRange = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,14 +25,18 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        getViews();
+
+        setUpEstimon();
+
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
     }
 
 
@@ -45,11 +54,60 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.beacon_far_menu:
+                estimonRange = Config.ESTIMON_FAR;
+                break;
+            case R.id.beacon_immediate_menu:
+                estimonRange = Config.ESTIMON_IMMEDIATE;
+                break;
+            case R.id.beacon_near_menu:
+                estimonRange = Config.ESTIMON_NEAR;
+                break;
         }
 
+        setUpEstimon();
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getViews(){
+        estimonMainImage = (ImageView) findViewById(R.id.estimon_main_image);
+        beaconFarText = (TextView) findViewById(R.id.beacon_far_text);
+    }
+
+    private void setUpEstimon(){
+
+        switch (estimonRange){
+            case Config.ESTIMON_FAR:
+                // far
+                if (estimonMainImage.getVisibility()==View.VISIBLE)
+                    estimonMainImage.setVisibility(View.GONE);
+                if (beaconFarText.getVisibility()==View.GONE)
+                    beaconFarText.setVisibility(View.VISIBLE);
+                break;
+            case Config.ESTIMON_IMMEDIATE:
+                // immediate
+                if (estimonMainImage.getVisibility()==View.GONE)
+                    estimonMainImage.setVisibility(View.VISIBLE);
+                if (beaconFarText.getVisibility()==View.VISIBLE)
+                    beaconFarText.setVisibility(View.GONE);
+
+                estimonMainImage.getLayoutParams().height = 700;
+                estimonMainImage.requestLayout();
+                break;
+            case Config.ESTIMON_NEAR:
+                // near
+                if (estimonMainImage.getVisibility()==View.GONE)
+                    estimonMainImage.setVisibility(View.VISIBLE);
+                if (beaconFarText.getVisibility()==View.VISIBLE)
+                    beaconFarText.setVisibility(View.GONE);
+
+                estimonMainImage.getLayoutParams().height = 1200;
+                estimonMainImage.requestLayout();
+                break;
+            default:
+                // error occurred
+                break;
+        }
     }
 }
