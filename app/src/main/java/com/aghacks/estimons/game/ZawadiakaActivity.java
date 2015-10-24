@@ -42,7 +42,7 @@ public class ZawadiakaActivity extends AppCompatActivity {
         rangingEstimonText = (TextView) findViewById(R.id.ranging_estimon_text_zaw);
         Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
         rangingEstimonText.setTypeface(myTypeface);
-        progressBar = (WhorlView) findViewById(R.id.progressBar);
+        progressBar = (WhorlView) findViewById(R.id.progressBarRanging);
         initDetectedPokes();
 
         showProgressBar(true);

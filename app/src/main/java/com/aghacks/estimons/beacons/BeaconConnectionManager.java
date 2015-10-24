@@ -16,16 +16,10 @@ public class BeaconConnectionManager {
     private static final String TAG = BeaconConnectionManager.class.getSimpleName();
     private Context context;
     private BeaconConnection connection;
-    private WpierdolListener listener = null;
 
     public interface WpierdolListener {
         void setMotionListenerAfterConnected(BeaconConnection connection);
     }
-
-    public void setWpierdolListener(WpierdolListener listener) {
-        this.listener = listener;
-    }
-
     public BeaconConnection getConnection() {
         return connection;
     }
@@ -51,9 +45,7 @@ public class BeaconConnectionManager {
                         Log.d(TAG, "Advertising internal: " + connection.advertisingIntervalMillis().get());
                         Log.d(TAG, "Broadcasting power: " + connection.broadcastingPower().get());
                         Log.d(TAG, "beaconInfo temp: " + String.valueOf(connection.temperature().get()));
-                        if (listener != null) {
-                            listener.setMotionListenerAfterConnected(connection);
-                        }
+
                     }
 
                     @Override

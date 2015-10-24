@@ -18,19 +18,17 @@ import com.aghacks.estimons.Constants;
 import com.aghacks.estimons.MainActivity;
 import com.aghacks.estimons.R;
 import com.aghacks.estimons.beacons.BeaconConnectionManager;
+import com.aghacks.estimons.beacons.BeaconMotionManager;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
-import com.estimote.sdk.connection.BeaconConnection;
 import com.estimote.sdk.connection.MotionState;
-import com.estimote.sdk.connection.Property;
-import com.estimote.sdk.exception.EstimoteDeviceException;
 
 import java.util.List;
 
 public class FightActivity extends AppCompatActivity {
     public static final String TAG = FightActivity.class.getSimpleName();
-    private TextView info;
+    public TextView info;
     private RelativeLayout parent;
     private BeaconManager beaconManager;
     private BeaconConnectionManager beaconConnectionManager;
@@ -46,7 +44,7 @@ public class FightActivity extends AppCompatActivity {
         info = (TextView) findViewById(R.id.textView4);
         parent = (RelativeLayout) findViewById(R.id.parent);
         parent.setBackgroundColor(Color.LTGRAY);
-        setupConnectionObservable();
+
         injectViews();
         setupTheGame();
         beaconManager = new BeaconManager(this);
@@ -69,6 +67,7 @@ public class FightActivity extends AppCompatActivity {
             }
         });
         GameEngine.start(this);
+        setupConnectionObservable();
     }
 
     private void injectViews() {
@@ -80,10 +79,7 @@ public class FightActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick ");
-                Constants.fightEscaped = true;
-                Intent i = new Intent(FightActivity.this, MainActivity.class);
-                startActivity(i);
-                finish();
+                onBackPressed();
             }
         });
 
@@ -101,74 +97,21 @@ public class FightActivity extends AppCompatActivity {
 
     private void setupConnectionObservable() {
         Log.d(TAG, "setupConnectionObservable ");
-        final BeaconConnectionManager manager = new BeaconConnectionManager(this);
-        manager.setWpierdolListener(new BeaconConnectionManager.WpierdolListener() {
+        final BeaconMotionManager manager = new BeaconMotionManager(this);
+        manager.setListener(new BeaconMotionManager.MotionChangeEventListener() {
             @Override
-            public void setMotionListenerAfterConnected(BeaconConnection connection) {
-                Log.d(TAG, "setMotionListenerAfterConnected ");
-                setAccelerometerCallback(connection);
+            public void broadcastActivity(final String s) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        info.setText(s);
+                    }
+                });
             }
         });
         manager.establishConnection();
     }
 
-    private void setAccelerometerCallback(final BeaconConnection beaconConnection) {
-        Log.d(TAG, "setAccelerometerCallback ");
-        if (beaconConnection == null) {
-            Log.e(TAG, "null connection object reference");
-            return;
-        }
-        beaconConnection.edit().set(beaconConnection.motionDetectionEnabled(), true)
-                .set(beaconConnection.advertisingIntervalMillis(), 500)
-                .commit(new BeaconConnection.WriteCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Log.d(TAG, "onSuccess ");
-                        // After on beacon connect all values are read so we can read them immediately and update UI.
-                        String motionMessage = String.valueOf(
-                                beaconConnection.motionDetectionEnabled().get()
-                                        ? beaconConnection.motionState().get() : null);
-                        Log.d(TAG, "onSuccess : motionMessage: " + motionMessage);
-                        enableMotionListener(beaconConnection);
-                    }
-
-                    @Override
-                    public void onError(EstimoteDeviceException exception) {
-                        Log.e(TAG, "Failed to enable motion detection");
-                        exception.printStackTrace();
-                        Log.e(TAG, "error code: " + exception.errorCode);
-                    }
-                });
-    }
-
-    private void enableMotionListener(BeaconConnection beaconConnection) {
-        Log.d(TAG, "enableMotionListener ");
-        if (beaconConnection != null) {
-            beaconConnection.setMotionListener(new Property.Callback<MotionState>() {
-                @Override
-                public void onValueReceived(final MotionState value) {
-                    Log.d(TAG, "onValueReceived " + value.name());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            boolean moving = value == MotionState.NOT_MOVING;
-                            info.setText(moving ? "MOVE!!!" : "HOLD ON!!!");
-                            previousNotification = lastNotification;
-                            lastNotification = System.currentTimeMillis();
-                            Log.i(TAG, "twój refleks: " + (lastNotification - previousNotification) + " ms");
-                        }
-                    });
-                }
-
-                @Override
-                public void onFailure() {
-                    Log.e(TAG, "Unable to register motion listener");
-                }
-            });
-        } else {
-            Log.e(TAG, "sheeet... null connection object");
-        }
-    }
 
     @Override
     protected void onStart() {
@@ -260,5 +203,13 @@ public class FightActivity extends AppCompatActivity {
         info.setText("YOU WIN!!!");
         GameEngine.gameEnd = true;
         parent.setBackgroundColor(Color.DKGRAY);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Constants.fightEscaped = true;
+        Intent i = new Intent(FightActivity.this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }
