@@ -31,6 +31,7 @@ public class BeaconConnectionManager {
                     @Override
                     public void onAuthorized(BeaconInfo beaconInfo) {
                         EstimoteSDK.initialize(context, "estimons-mzy", "e2c71dee0a386b6a548d0cde0754384a");
+                        connection.authenticate();
 
                     }
 
@@ -51,7 +52,6 @@ public class BeaconConnectionManager {
                         Log.d(TAG, "Disconnected");
                     }
                 });
-        connection.authenticate();
 
     }
 
