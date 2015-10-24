@@ -34,14 +34,6 @@
         android:layout_marginTop="68dp"
         android:src="@drawable/atak1" />
 
-    <Button
-        android:id="@+id/run"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/fight"
-        android:layout_below="@+id/fight"
-        android:text="RUN" />
-
     <ProgressBar
         android:id="@+id/yourPokeHp"
         style="?android:attr/progressBarStyleHorizontal"
@@ -59,14 +51,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/opponent"
         android:background="#dd2aa4" />
-
-    <Button
-        android:id="@+id/fight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/opponent"
-        android:layout_below="@+id/yourPokeHp"
-        android:text="ATTACK" />
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
