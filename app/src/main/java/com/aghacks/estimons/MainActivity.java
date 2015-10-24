@@ -43,13 +43,9 @@ public class MainActivity extends AppCompatActivity {
         temperatureRefreshHandler = new Handler();
 //        Constants.fightEscaped = false;
         EstimoteSDK.initialize(this, "estimons-mzy", "e2c71dee0a386b6a548d0cde0754384a");
-
-
         checkBeaconInfo();
-
         getViews();
         setUpEstimon((Beacon) getIntent().getParcelableExtra(Constants.NEARABLE_ESTIMON));
-
     }
 
 
