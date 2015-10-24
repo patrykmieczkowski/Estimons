@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Estimons</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_estidex">EstidexActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
