@@ -9,16 +9,18 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
 
-    <TextView android:text="my temp is 24*C"
-        android:layout_width="wrap_content"
+    <TextView android:text="Estimon"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
         android:id="@+id/textView2" />
 
     <ImageView
         android:id="@+id/estimon_main_image"
         android:layout_width="wrap_content"
         android:layout_height="300dp"
-        android:src="@drawable/bku"
+        android:src="@drawable/basic1"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

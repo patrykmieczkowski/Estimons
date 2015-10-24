@@ -15,6 +15,7 @@ import com.aghacks.estimons.database.DetectedPoke;
 import com.aghacks.estimons.lukmarr.Constants;
 import com.aghacks.estimons.lukmarr.zawadiaka.ZawadiakaActivity;
 import com.estimote.sdk.Beacon;
+import com.estimote.sdk.Nearable;
 
 import io.realm.Realm;
 
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getViews();
+        Nearable a;
+        Beacon b;
 
         setUpEstimon((Beacon) getIntent().getParcelableExtra(Constants.NEARABLE_ESTIMON));
 
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "measuredPower: " + parcelableExtra.getMeasuredPower());
         Log.d(TAG, "rssi: " + parcelableExtra.getRssi());
         Log.d(TAG, "describeContents: " + parcelableExtra.describeContents());
+
 
         switch (estimonRange) {
             case Config.ESTIMON_FAR:
