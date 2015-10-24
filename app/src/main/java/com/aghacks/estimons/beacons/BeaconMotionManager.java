@@ -114,7 +114,7 @@ public class BeaconMotionManager {
             public void onValueReceived(final MotionState value) {
                 Log.d(TAG, "onValueReceived ");
                 if (listener != null) {
-                    String s = value == MotionState.NOT_MOVING ? "MOVE" : "HOLD";
+                    String s = value == MotionState.NOT_MOVING ? "HOLD" : "MOVE";
                     listener.broadcastActivity(s);
                 }
             }
