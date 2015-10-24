@@ -98,7 +98,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (Constants.fightEscaped && isCountDownTimerRunning) {
-                    estimonMainImage.setImageResource(R.drawable.najedzony1);
+                    estimonMainImage.setImageResource(R.drawable.najedzony2);
+                    new CountDownTimer(5000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            estimonMainImage.setImageResource(R.drawable.zabawowy2);
+                            new CountDownTimer(5000, 1000) {
+
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    estimonMainImage.setImageResource(R.drawable.basic1);
+                                }
+                            };
+                        }
+                    };
                     cancelCountDownTimer();
                     Snackbar.make(v, "Thank you for feeding me my lord!", Snackbar.LENGTH_LONG).show();
                 }
