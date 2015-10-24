@@ -26,11 +26,15 @@ import com.estimote.sdk.connection.Property;
 import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
+
     public static final String TAG = MainActivity.class.getSimpleName();
+
     private ImageView estimonMainImage;
     private TextView nameText, countdownText;
     private FloatingActionButton attackButton, warmButton, eatButton;
     private BeaconConnectionManager beaconConnectionManager;
+    private CountDownTimer countDownTimer;
+    private boolean isCountDownTimerRunning = false;
     private Handler temperatureRefreshHandler;
     private float temperatureValue;
 
@@ -86,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
         eatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Constants.fightEscaped) {
+                if (Constants.fightEscaped && isCountDownTimerRunning) {
                     estimonMainImage.setImageResource(R.drawable.najedzony1);
+                    cancelCountDownTimer();
                     Snackbar.make(v, "Thank you for feeding me my lord!", Snackbar.LENGTH_LONG).show();
                 }
             }
@@ -201,7 +206,9 @@ public class MainActivity extends AppCompatActivity {
         if (countdownText.getVisibility()==View.GONE)
             countdownText.setVisibility(View.VISIBLE);
 
-        new CountDownTimer(30000, 1000) {
+        isCountDownTimerRunning = true;
+
+        countDownTimer = new CountDownTimer(10000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 countdownText.setText(String.valueOf(millisUntilFinished / 1000));
@@ -210,8 +217,17 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 if (countdownText.getVisibility()==View.VISIBLE)
                     countdownText.setVisibility(View.GONE);
+                isCountDownTimerRunning = false;
             }
         }
                 .start();
+
+    }
+
+    private void cancelCountDownTimer(){
+
+        countDownTimer.cancel();
+        isCountDownTimerRunning = false;
+
     }
 }
