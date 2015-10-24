@@ -25,11 +25,7 @@
         <activity
             android:name=".lukmarr.ble.RangingActivity"
             android:label="nearables_beacons" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".lukmarr.EstidexActivity"
@@ -37,17 +33,19 @@
         <activity
             android:name=".lukmarr.ble.NearableActivity"
             android:label="@string/title_activity_nearable" >
-
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".lukmarr.zawadiaka.FightActivity"
             android:label="@string/title_activity_zawadiaka" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".lukmarr.zawadiaka.ZawadiakaActivity"
