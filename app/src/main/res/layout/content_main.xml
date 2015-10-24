@@ -14,33 +14,33 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView2" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Roll me please C:"
-        android:id="@+id/textView"
-        android:layout_marginTop="93dp"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentEnd="true" />
-
     <ImageView
         android:id="@+id/estimon_main_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:src="@drawable/bku"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textView"
-        android:layout_toEndOf="@+id/textView2"
-        android:layout_above="@+id/textView3" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/beacon_far_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please come closer to\nInteract with me"
+        android:layout_centerVertical="true"
+        android:textStyle="italic"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:textSize="30sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Liblumote"
         android:textStyle="bold"
-        android:id="@+id/textView3"
+        android:id="@+id/estimon_name_text"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="46dp"
-        android:textSize="25dp" />
+        android:textSize="25sp" />
+
 </RelativeLayout>
