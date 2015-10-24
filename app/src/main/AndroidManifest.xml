@@ -46,11 +46,11 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".lukmarr.ble.FightActivity"
+            android:name=".lukmarr.zawadiaka.FightActivity"
             android:label="@string/title_activity_zawadiaka" >
         </activity>
         <activity
-            android:name=".lukmarr.ble.ZawadiakaActivity"
+            android:name=".lukmarr.zawadiaka.ZawadiakaActivity"
             android:label="@string/title_activity_zawadiaka" >
         </activity>
     </application>

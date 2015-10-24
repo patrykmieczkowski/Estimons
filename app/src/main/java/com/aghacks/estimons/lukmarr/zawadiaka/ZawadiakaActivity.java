@@ -1,4 +1,4 @@
-package com.aghacks.estimons.lukmarr.ble;
+package com.aghacks.estimons.lukmarr.zawadiaka;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.aghacks.estimons.R;
 import com.aghacks.estimons.database.DetectedPoke;
 import com.aghacks.estimons.lukmarr.Constants;
+import com.aghacks.estimons.lukmarr.ble.EstimonManager;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
@@ -134,14 +135,16 @@ public class ZawadiakaActivity extends AppCompatActivity {
                 for (Beacon b : list) {
 
                     if (!b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC)
-                            && detectedPokesMacs.contains(b.getMacAddress().toStandardString())) {
+//                            && detectedPokesMacs.contains(b.getMacAddress().toStandardString())
+
+                            ) {
                         showProgressBar(false);
                         Log.d(TAG, "discovered OPPONENT for wpierdol: " + b);
                         Intent intent = new Intent(ZawadiakaActivity.this, FightActivity.class);
                         intent.putExtra(Constants.NEARABLE_ESTIMON, b);
 
                         startActivity(intent);
-                        onBackPressed();
+                        finish();
                     }
                 }
             }
