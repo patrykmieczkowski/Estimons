@@ -3,10 +3,12 @@ package com.aghacks.estimons.beacons;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aghacks.estimons.MainActivity;
@@ -36,13 +38,17 @@ public class RangingActivity extends AppCompatActivity {
 
     private BeaconManager beaconManager;
     private WhorlView progressBar;
+//    private TextView rangingEstimonText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate ");
         setContentView(R.layout.ranging_main);
-        progressBar = (WhorlView) findViewById(R.id.progressBar);
+        progressBar = (WhorlView) findViewById(R.id.progressBarRanging);
+//        rangingEstimonText = (TextView) findViewById(R.id.ranging_estimon_text);
+//        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
+//        rangingEstimonText.setTypeface(myTypeface);
         showProgressBar(true);
         beaconManager = new BeaconManager(this);
     }
