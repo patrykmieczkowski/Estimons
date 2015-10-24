@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -30,7 +31,7 @@ public class FightActivity extends AppCompatActivity {
     public static final String TAG = FightActivity.class.getSimpleName();
 
     BeaconMotionManager manager;
-    public TextView info, info2;//, info3;
+    public TextView info, info2, actionText;//, info3;
     private RelativeLayout parent;
     private BeaconManager beaconManager;
     private BeaconConnectionManager beaconConnectionManager;
@@ -50,6 +51,10 @@ public class FightActivity extends AppCompatActivity {
 //        info3 = (TextView) findViewById(R.id.textView8);
         parent = (RelativeLayout) findViewById(R.id.parent);
         parent.setBackgroundColor(Color.LTGRAY);
+
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
+        actionText = (TextView) findViewById(R.id.estimon_name_text);
+        actionText.setTypeface(myTypeface);
 
         injectViews();
 //        setupTheGame();

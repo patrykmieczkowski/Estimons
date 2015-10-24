@@ -21,11 +21,11 @@
         android:id="@+id/textView42"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="1dp"
-        android:text="@string/hello_world"
-        android:textSize="25sp" />
+        tools:text="@string/hello_world"
+        android:textSize="35sp"
+        android:layout_above="@+id/opponentHp"
+        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/yourEstimon"
@@ -33,15 +33,16 @@
         android:layout_height="160sp"
         android:layout_above="@+id/run_fight__button"
         android:layout_alignStart="@+id/run_fight__button"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="0dp"
         android:src="@drawable/cz_atak2" />
 
     <ImageView
         android:id="@+id/opponent"
         android:layout_width="120sp"
         android:layout_height="160sp"
-        android:layout_alignBottom="@+id/opponentHp"
+        android:layout_above="@+id/attack_fight_button"
         android:layout_alignEnd="@+id/attack_fight_button"
+        android:layout_marginBottom="0dp"
         android:src="@drawable/atak1" />
 
     <ImageView

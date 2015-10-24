@@ -215,6 +215,8 @@ public class MainActivity extends AppCompatActivity {
                 if (countdownText.getVisibility()==View.VISIBLE)
                     countdownText.setVisibility(View.GONE);
                 isCountDownTimerRunning = false;
+                estimonMainImage.setImageResource(R.drawable.lepa1);
+
             }
         }
                 .start();
