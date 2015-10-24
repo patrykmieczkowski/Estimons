@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aghacks.estimons.database.DetectedPoke;
+import com.aghacks.estimons.lukmarr.beacons.BeaconConnectionManager;
 import com.aghacks.estimons.lukmarr.zawadiaka.ZawadiakaActivity;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.Nearable;
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getViews();
-        Nearable a;
-        Beacon b;
+
+        checkBeaconInfo();
 
         setUpEstimon((Beacon) getIntent().getParcelableExtra(Constants.NEARABLE_ESTIMON));
 
@@ -141,6 +142,14 @@ public class MainActivity extends AppCompatActivity {
                 // error occurred
                 break;
         }
+    }
+
+    private void checkBeaconInfo(){
+
+        BeaconConnectionManager beaconConnectionManager;
+        beaconConnectionManager = new BeaconConnectionManager(this);
+
+        beaconConnectionManager.establishConnection();
     }
 
     private void setYourPokemon(Beacon parcelableExtra) {

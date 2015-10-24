@@ -134,7 +134,7 @@ public class ZawadiakaActivity extends AppCompatActivity {
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
                 for (Beacon b : list) {
 
-                    if (!b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC)
+                    if (!b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)
 //                            && detectedPokesMacs.contains(b.getMacAddress().toStandardString())
 
                             ) {

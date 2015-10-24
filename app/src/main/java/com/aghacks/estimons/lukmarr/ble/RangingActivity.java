@@ -108,7 +108,8 @@ public class RangingActivity extends AppCompatActivity {
                 showProgressBar(false);
                 for (Beacon b : list) {
 
-                    if (b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC)) {
+                    if (b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)) {
+                        Constants.CYAN_MAC = b.getMacAddress();
                         Log.d(TAG, "discovered CYAN: " + b);
                         Intent intent = new Intent(RangingActivity.this, MainActivity.class);
                         intent.putExtra(Constants.NEARABLE_ESTIMON, b);
