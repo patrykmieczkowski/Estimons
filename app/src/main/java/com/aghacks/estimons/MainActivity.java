@@ -229,5 +229,8 @@ public class MainActivity extends AppCompatActivity {
         countDownTimer.cancel();
         isCountDownTimerRunning = false;
 
+        if (countdownText.getVisibility()==View.VISIBLE)
+            countdownText.setVisibility(View.GONE);
+
     }
 }

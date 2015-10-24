@@ -3,12 +3,14 @@ package com.aghacks.estimons.game;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aghacks.estimons.R;
@@ -30,11 +32,15 @@ public class ZawadiakaActivity extends AppCompatActivity {
     private BeaconManager beaconManager;
     private WhorlView progressBar;
     private List<String> detectedPokesMacs = new ArrayList<>();
+    private TextView rangingEstimonText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zawadiaka2);
+        rangingEstimonText = (TextView) findViewById(R.id.ranging_estimon_text_zaw);
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
+        rangingEstimonText.setTypeface(myTypeface);
         progressBar = (WhorlView) findViewById(R.id.progressBar);
         initDetectedPokes();
 

@@ -38,7 +38,7 @@ public class RangingActivity extends AppCompatActivity {
 
     private BeaconManager beaconManager;
     private WhorlView progressBar;
-//    private TextView rangingEstimonText;
+    private TextView rangingEstimonText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +46,9 @@ public class RangingActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate ");
         setContentView(R.layout.ranging_main);
         progressBar = (WhorlView) findViewById(R.id.progressBarRanging);
-//        rangingEstimonText = (TextView) findViewById(R.id.ranging_estimon_text);
-//        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
-//        rangingEstimonText.setTypeface(myTypeface);
+        rangingEstimonText = (TextView) findViewById(R.id.ranging_estimon_text);
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
+        rangingEstimonText.setTypeface(myTypeface);
         showProgressBar(true);
         beaconManager = new BeaconManager(this);
     }
