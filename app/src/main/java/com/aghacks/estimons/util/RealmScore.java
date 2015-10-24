@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
 public class RealmScore extends RealmObject {
     @PrimaryKey
     private String uuid;
-    private String score;
+    private int score;
 
     public RealmScore() {
     }
@@ -22,11 +22,11 @@ public class RealmScore extends RealmObject {
         this.uuid = uuid;
     }
 
-    public String getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(int score) {
         this.score = score;
     }
 }

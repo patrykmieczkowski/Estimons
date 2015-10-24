@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.aghacks.estimons.util.HighScoreUtils;
 import com.estimote.sdk.MacAddress;
 import com.estimote.sdk.Region;
 
@@ -29,6 +30,7 @@ public class Constants {
     public static long startAction = 0;
     public static TextView textView;
     public static Activity activity;
+    public static boolean startedGame = false;
 
     public static void calculateAccuracy() {
         final long diff = (endAction - startAction);
@@ -39,6 +41,7 @@ public class Constants {
                 public void run() {
                     Log.d(TAG, "run ");
                     textView.setText(String.valueOf(diff));
+                    HighScoreUtils.addToHighScore((int) diff, activity);
                 }
             });
         }

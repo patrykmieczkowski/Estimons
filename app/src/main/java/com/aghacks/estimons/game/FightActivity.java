@@ -136,6 +136,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
 
     public void startGame() {
         Log.d(TAG, "startGame ");
+        Constants.startedGame = true;
         if (Constants.connected) {
             showProgressBar(false);
             handler.postDelayed(new Runnable() {
