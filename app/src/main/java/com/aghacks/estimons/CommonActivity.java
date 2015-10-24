@@ -19,6 +19,7 @@ import com.aghacks.estimons.fragments.MainFragment;
 import com.aghacks.estimons.fragments.ZawadiakaFragment;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.EstimoteSDK;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.connection.Property;
 import com.tt.whorlviewlibrary.WhorlView;
@@ -118,7 +119,7 @@ public class CommonActivity extends AppCompatActivity {
 
     private void checkBeaconInfo() {
         Log.d(TAG, "checkBeaconInfo ");
-
+        EstimoteSDK.initialize(this, "estimons-mzy", "e2c71dee0a386b6a548d0cde0754384a");
         beaconConnectionManager = new BeaconConnectionManager(this);
         beaconConnectionManager.establishConnection();
     }

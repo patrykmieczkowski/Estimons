@@ -15,13 +15,12 @@ import android.widget.TextView;
 
 import com.aghacks.estimons.R;
 import com.aghacks.estimons.beacons.BeaconConnectionManager;
-import com.aghacks.estimons.beacons.BeaconMotionManager;
 import com.aghacks.estimons.game.GameEngine;
 import com.estimote.sdk.BeaconManager;
 
 public class FightFragment extends Fragment {
     public static final String TAG = FightFragment.class.getSimpleName();
-    BeaconMotionManager manager;
+//    BeaconMotionManager manager;
     public TextView info;
     private RelativeLayout parent;
     private BeaconManager beaconManager;

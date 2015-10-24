@@ -30,7 +30,7 @@ public class FightActivity extends AppCompatActivity {
     public static final String TAG = FightActivity.class.getSimpleName();
 
     BeaconMotionManager manager;
-    public TextView info;
+    public TextView info, info2,info3;
     private RelativeLayout parent;
     private BeaconManager beaconManager;
     private BeaconConnectionManager beaconConnectionManager;
@@ -39,19 +39,23 @@ public class FightActivity extends AppCompatActivity {
     private ProgressBar barEstimon, barOpponent;
     private long lastNotification = -1;
     private long previousNotification = -1;
+    private android.os.Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fight);
         info = (TextView) findViewById(R.id.textView4);
+        info2 = (TextView) findViewById(R.id.textView6);
+        info3 = (TextView) findViewById(R.id.textView8);
         parent = (RelativeLayout) findViewById(R.id.parent);
         parent.setBackgroundColor(Color.LTGRAY);
 
         injectViews();
-        setupTheGame();
+//        setupTheGame();
         beaconManager = new BeaconManager(this);
 //        beaconManager.setForegroundScanPeriod(500, 0);
+        handler = new Handler();
     }
 
     private void setupTheGame() {
@@ -91,10 +95,11 @@ public class FightActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick ");
-                if (GameEngine.canUserMove && !GameEngine.gameEnd) {
-                    GameEngine.hit(false);
-                    opponentMove();
-                }
+//                if (GameEngine.canUserMove && !GameEngine.gameEnd) {
+//                    GameEngine.hit(false);
+//                    opponentMove();
+//                }
+                startGame();
             }
         });
 
@@ -118,6 +123,19 @@ public class FightActivity extends AppCompatActivity {
         manager.establishConnection();
     }
 
+    public void startGame() {
+        Log.d(TAG, "startGame ");
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                info2.setText("MOVE YOUR BEACON!");
+                Constants.startAction = System.currentTimeMillis();
+            }
+        }, 1000);
+        info2.setText("READY...");
+
+    }
 
     @Override
     protected void onStart() {

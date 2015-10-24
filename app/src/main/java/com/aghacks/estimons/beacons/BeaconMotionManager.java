@@ -11,7 +11,7 @@ import com.estimote.sdk.connection.Property;
 import com.estimote.sdk.exception.EstimoteDeviceException;
 
 /**
- * Created by Patryk Mieczkowski on 24.10.15
+ * Created by Patryk Mieczkowski, shipped by Lukasz Marczak on 24.10.15
  */
 public class BeaconMotionManager {
     public interface MotionChangeEventListener {
@@ -31,7 +31,6 @@ public class BeaconMotionManager {
     private static final String TAG = BeaconMotionManager.class.getSimpleName();
     private Context context;
     private BeaconConnection connection;
-
 
     public BeaconConnection getConnection() {
         return connection;
@@ -116,6 +115,8 @@ public class BeaconMotionManager {
                 if (listener != null) {
                     String s = value == MotionState.NOT_MOVING ? "HOLD" : "MOVE";
                     listener.broadcastActivity(s);
+                    Constants.endAction = System.currentTimeMillis();
+                    Constants.calculateAccuracy();
                 }
             }
 

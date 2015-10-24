@@ -74,7 +74,6 @@ public class MainFragment extends Fragment {
                         parentActivity.refreshTemperature();
                     }
                 });
-
             }
         });
         attackButton.setOnClickListener(new View.OnClickListener() {
