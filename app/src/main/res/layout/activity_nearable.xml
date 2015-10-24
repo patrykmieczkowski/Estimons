@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.aghacks.estimons.lukmarr.ble.NearableActivity">
+
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="10sp"
+        android:text="Ranging for your Estimon..."
+        android:textSize="30sp" />
+
+    <com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/progressBar"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:paddingTop="15sp"
+        android:visibility="gone"
+        app:whorlview_circle_colors="#F14336_#c0392b_#2980b9_#f39c12_#16a085"
+        app:whorlview_circle_speed="270"
+        app:whorlview_parallax="medium"
+        app:whorlview_strokeWidth="6"
+        app:whorlview_sweepAngle="90" />
+
+
+</RelativeLayout>

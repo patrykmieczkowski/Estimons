@@ -11,10 +11,26 @@ public class DetectedPoke extends RealmObject {
     @PrimaryKey
     private String estimonId;
     private String name;
-    private int happiness;
-    private int health;
+    private String mac;
+    private long lastVisit;
 
     public DetectedPoke() {
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+
+    public long getLastVisit() {
+        return lastVisit;
+    }
+
+    public void setLastVisit(long lastVisit) {
+        this.lastVisit = lastVisit;
     }
 
     public String getEstimonId() {
@@ -31,21 +47,5 @@ public class DetectedPoke extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getHappiness() {
-        return happiness;
-    }
-
-    public void setHappiness(int happiness) {
-        this.happiness = happiness;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 }

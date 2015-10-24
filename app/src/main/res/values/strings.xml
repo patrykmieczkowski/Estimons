@@ -4,4 +4,6 @@
     <string name="title_activity_estidex">EstidexActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_nearable">NearableActivity</string>
+    <string name="title_activity_zawadiaka">ZawadiakaActivity</string>
 </resources>
