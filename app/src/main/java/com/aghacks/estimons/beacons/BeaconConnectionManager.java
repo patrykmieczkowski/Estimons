@@ -1,10 +1,10 @@
 package com.aghacks.estimons.beacons;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
 import com.aghacks.estimons.Constants;
+import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.cloud.model.BeaconInfo;
 import com.estimote.sdk.connection.BeaconConnection;
 import com.estimote.sdk.exception.EstimoteDeviceException;
@@ -15,9 +15,17 @@ import com.estimote.sdk.exception.EstimoteDeviceException;
 public class BeaconConnectionManager {
 
     private static final String TAG = BeaconConnectionManager.class.getSimpleName();
-    private Activity activity;
     private Context context;
     private BeaconConnection connection;
+    private WpierdolListener listener = null;
+
+    public interface WpierdolListener {
+        void onWpierdol();
+    }
+
+    public void setWpierdolListener(WpierdolListener listener) {
+        this.listener = listener;
+    }
 
     public BeaconConnection getConnection() {
         return connection;
@@ -36,7 +44,6 @@ public class BeaconConnectionManager {
                         Log.d(TAG, "onAuthorized ");
 //                        EstimoteSDK.initialize(context, "estimons-mzy", "e2c71dee0a386b6a548d0cde0754384a");
 //                        connection.authenticate();
-
                     }
 
                     @Override
@@ -45,6 +52,9 @@ public class BeaconConnectionManager {
                         Log.d(TAG, "Advertising internal: " + connection.advertisingIntervalMillis().get());
                         Log.d(TAG, "Broadcasting power: " + connection.broadcastingPower().get());
                         Log.d(TAG, "beaconInfo temp: " + String.valueOf(connection.temperature().get()));
+                        if (listener != null) {
+                            listener.onWpierdol();
+                        }
                     }
 
                     @Override

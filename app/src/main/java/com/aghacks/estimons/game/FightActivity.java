@@ -15,9 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aghacks.estimons.Constants;
+import com.aghacks.estimons.MainActivity;
 import com.aghacks.estimons.R;
+import com.aghacks.estimons.beacons.BeaconConnectionManager;
+import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.Nearable;
+import com.estimote.sdk.Region;
+import com.estimote.sdk.connection.BeaconConnection;
+import com.estimote.sdk.connection.MotionState;
+import com.estimote.sdk.connection.Property;
+import com.estimote.sdk.exception.EstimoteDeviceException;
 
 import java.util.List;
 
@@ -26,6 +33,12 @@ public class FightActivity extends AppCompatActivity {
     private TextView info;
     private RelativeLayout parent;
     private BeaconManager beaconManager;
+    private BeaconConnectionManager beaconConnectionManager;
+    private Beacon opponentBeacon = null;
+    private BeaconConnection thisConnection;
+
+    private long lastNotification=-1;
+    private long previousNotification=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +47,8 @@ public class FightActivity extends AppCompatActivity {
         info = (TextView) findViewById(R.id.textView4);
         parent = (RelativeLayout) findViewById(R.id.parent);
         parent.setBackgroundColor(Color.LTGRAY);
+
+        checkBeaconInfo();
         ProgressBar barEstimon, barOpponent;
         barEstimon = (ProgressBar) findViewById(R.id.yourPokeHp);
         barOpponent = (ProgressBar) findViewById(R.id.opponentHp);
@@ -42,6 +57,8 @@ public class FightActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick ");
                 Constants.fightEscaped = true;
+                Intent i = new Intent(FightActivity.this, MainActivity.class);
+                startActivity(i);
                 finish();
             }
         });
@@ -72,6 +89,74 @@ public class FightActivity extends AppCompatActivity {
         });
         GameEngine.start(this);
         beaconManager = new BeaconManager(this);
+        beaconManager.setForegroundScanPeriod(500,0);
+    }
+
+    private void checkBeaconInfo() {
+        Log.d(TAG, "checkBeaconInfo ");
+        beaconConnectionManager = new BeaconConnectionManager(this);
+        beaconConnectionManager.setWpierdolListener(new BeaconConnectionManager.WpierdolListener() {
+            @Override
+            public void onWpierdol() {
+                Log.d(TAG, "wpierdol listener set ");
+                if (beaconConnectionManager != null && beaconConnectionManager.getConnection() != null) {
+                    thisConnection = beaconConnectionManager.getConnection();
+                    setAccelerometerCallback();
+                }
+            }
+        });
+        beaconConnectionManager.establishConnection();
+    }
+
+    private void setAccelerometerCallback() {
+        Log.d(TAG, "setAccelerometerCallback ");
+        if (thisConnection == null) {
+            Log.e(TAG, "null connection object reference");
+            return;
+        }
+        thisConnection.edit().set(thisConnection.motionDetectionEnabled(), true)
+                .commit(new BeaconConnection.WriteCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG, "onSuccess ");
+                        // After on beacon connect all values are read so we can read them immediately and update UI.
+                        String motionMessage = String.valueOf(
+                                thisConnection.motionDetectionEnabled().get() ? thisConnection.motionState().get() : null);
+                        Log.d(TAG, "onSuccess : motionMessage: " + motionMessage);
+                        enableMotionListener();
+                    }
+
+                    @Override
+                    public void onError(EstimoteDeviceException exception) {
+                        Log.e(TAG, "Failed to enable motion detection");
+                    }
+                });
+    }
+
+    private void enableMotionListener() {
+        if (thisConnection != null)
+            thisConnection.setMotionListener(new Property.Callback<MotionState>() {
+                @Override
+                public void onValueReceived(final MotionState value) {
+                    Log.d(TAG, "onValueReceived " + value.name());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean moving = value == MotionState.NOT_MOVING;
+                            info.setText(moving ? "MOVE!!!" : "HOLD ON!!!");
+                            previousNotification = lastNotification;
+                            lastNotification = System.currentTimeMillis();
+                            Log.i(TAG, "twój refleks: "+(lastNotification-previousNotification)+" ms");
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure() {
+                    Log.e(TAG, "Unable to register motion listener");
+                }
+            });
     }
 
     @Override
@@ -94,23 +179,16 @@ public class FightActivity extends AppCompatActivity {
     }
 
     private void connectToService() {
-//        toolbar.setSubtitle("Scanning...");
-        beaconManager.setNearableListener(new BeaconManager.NearableListener() {
+        Log.d(TAG, "connectToService ");
+        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
-            public void onNearablesDiscovered(List<Nearable> list) {
-                Log.i(TAG, "discovered " + list.size() + " nearables");
-                for (Nearable nearable : list) {
-                    Log.d(TAG, "next nearable: " + nearable);
-                    final double x = nearable.xAcceleration;
-                    final double y = nearable.yAcceleration;
-                    final double z = nearable.zAcceleration;
-                    final String mes = "is" + (nearable.isMoving ? " " : " not ") + "moving";
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            info.setText(x + "," + y + "," + z + ": " + mes);
-                        }
-                    });
+            public void onBeaconsDiscovered(Region region, List<Beacon> list) {
+                Log.d(TAG, "onBeaconsDiscovered ");
+                for (Beacon b : list) {
+                    if (!b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)) {
+                        opponentBeacon = b;
+                        beaconManager.stopRanging(Constants.ALL_ESTIMOTE_BEACONS_REGION);
+                    }
                 }
             }
         });
@@ -118,7 +196,7 @@ public class FightActivity extends AppCompatActivity {
             @Override
             public void onServiceReady() {
                 Log.d(TAG, "onServiceReady ");
-                beaconManager.startNearableDiscovery();
+                beaconManager.startRanging(Constants.ALL_ESTIMOTE_BEACONS_REGION);
             }
         });
     }

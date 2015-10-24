@@ -37,6 +37,8 @@ public class RangingActivity extends AppCompatActivity {
     private BeaconManager beaconManager;
     private WhorlView progressBar;
 
+    private boolean activityStarted = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class RangingActivity extends AppCompatActivity {
         progressBar = (WhorlView) findViewById(R.id.progressBar);
         showProgressBar(true);
         beaconManager = new BeaconManager(this);
+        beaconManager.setForegroundScanPeriod(500, 0);
     }
 
     public void showProgressBar(final boolean show) {
@@ -106,8 +109,8 @@ public class RangingActivity extends AppCompatActivity {
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
                 showProgressBar(false);
                 for (Beacon b : list) {
-
-                    if (b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)) {
+                    if (!activityStarted && b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)) {
+                        activityStarted = true;
                         Constants.CYAN_MAC = b.getMacAddress();
                         Log.d(TAG, "discovered CYAN: " + b);
                         Intent intent = new Intent(RangingActivity.this, MainActivity.class);
