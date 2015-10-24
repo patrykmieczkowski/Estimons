@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/zawadiaka_activity_background"
+    tools:context="com.aghacks.estimons.game.FightActivity">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="1dp"
+        android:text="@string/hello_world"
+        android:textSize="25sp" />
+
+    <ImageView
+        android:id="@+id/yourEstimon"
+        android:layout_width="120sp"
+        android:layout_height="160sp"
+        android:layout_above="@+id/run_fight__button"
+        android:layout_alignStart="@+id/run_fight__button"
+        android:layout_marginBottom="60dp"
+        android:src="@drawable/cz_atak2" />
+
+    <ImageView
+        android:id="@+id/opponent"
+        android:layout_width="120sp"
+        android:layout_height="160sp"
+        android:layout_alignBottom="@+id/opponentHp"
+        android:layout_alignEnd="@+id/attack_fight_button"
+        android:src="@drawable/atak1" />
+
+    <ImageView
+        android:id="@+id/opponentHp"
+        android:layout_width="150sp"
+        android:layout_height="20sp"
+        android:layout_above="@+id/yourEstimon"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/cz_health1" />
+
+    <ImageView
+        android:id="@+id/yourPokeHp"
+        android:layout_width="150sp"
+        android:layout_height="20sp"
+        android:layout_above="@+id/opponent"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/n_health1" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/attack_fight_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/attack_icon"
+        app:backgroundTint="@color/attack_icon_color" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/run_fight__button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/run_icon"
+        app:backgroundTint="@color/fish_icon_color" />
+
+</RelativeLayout>
