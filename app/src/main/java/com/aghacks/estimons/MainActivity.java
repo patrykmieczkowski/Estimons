@@ -8,16 +8,13 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.aghacks.estimons.database.DetectedPoke;
 import com.aghacks.estimons.beacons.BeaconConnectionManager;
+import com.aghacks.estimons.database.DetectedPoke;
 import com.aghacks.estimons.game.ZawadiakaActivity;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.EstimoteSDK;
@@ -153,16 +150,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpEstimon(Beacon parcelableExtra) {
 
-        setYourPokemon(parcelableExtra);
-
-        Log.d(TAG, "setUpEstimon : all data from beacon:");
-        Log.d(TAG, "mac: " + parcelableExtra.getMacAddress());
-        Log.d(TAG, "proximityUUID: " + parcelableExtra.getProximityUUID());
-        Log.d(TAG, "major: " + parcelableExtra.getMajor());
-        Log.d(TAG, "minor: " + parcelableExtra.getMinor());
-        Log.d(TAG, "measuredPower: " + parcelableExtra.getMeasuredPower());
-        Log.d(TAG, "rssi: " + parcelableExtra.getRssi());
-        Log.d(TAG, "describeContents: " + parcelableExtra.describeContents());
+//        setYourPokemon(parcelableExtra);
+//
+//        Log.d(TAG, "setUpEstimon : all data from beacon:");
+//        Log.d(TAG, "mac: " + parcelableExtra.getMacAddress());
+//        Log.d(TAG, "proximityUUID: " + parcelableExtra.getProximityUUID());
+//        Log.d(TAG, "major: " + parcelableExtra.getMajor());
+//        Log.d(TAG, "minor: " + parcelableExtra.getMinor());
+//        Log.d(TAG, "measuredPower: " + parcelableExtra.getMeasuredPower());
+//        Log.d(TAG, "rssi: " + parcelableExtra.getRssi());
+//        Log.d(TAG, "describeContents: " + parcelableExtra.describeContents());
 
         if (Constants.fightEscaped){
             estimonMainImage.setImageResource(R.drawable.glodny1);

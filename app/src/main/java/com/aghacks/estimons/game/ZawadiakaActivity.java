@@ -33,6 +33,7 @@ public class ZawadiakaActivity extends AppCompatActivity {
     private WhorlView progressBar;
     private List<String> detectedPokesMacs = new ArrayList<>();
     private TextView rangingEstimonText;
+    private boolean startedNewActivity = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class ZawadiakaActivity extends AppCompatActivity {
         rangingEstimonText = (TextView) findViewById(R.id.ranging_estimon_text_zaw);
         Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
         rangingEstimonText.setTypeface(myTypeface);
-        progressBar = (WhorlView) findViewById(R.id.progressBar);
+        progressBar = (WhorlView) findViewById(R.id.progressBarRanging);
         initDetectedPokes();
 
         showProgressBar(true);
@@ -140,10 +141,8 @@ public class ZawadiakaActivity extends AppCompatActivity {
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
                 for (Beacon b : list) {
 
-                    if (!b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)
-//                            && detectedPokesMacs.contains(b.getMacAddress().toStandardString())
-
-                            ) {
+                    if (!startedNewActivity && !b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)) {
+                        startedNewActivity = true;
                         showProgressBar(false);
                         Log.d(TAG, "discovered OPPONENT for wpierdol: " + b);
                         Intent intent = new Intent(ZawadiakaActivity.this, FightActivity.class);

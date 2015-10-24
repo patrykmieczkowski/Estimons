@@ -27,4 +27,5 @@ dependencies {
     compile 'io.realm:realm-android:0.83.1'
     compile 'com.estimote:sdk:0.9.3@aar'
     compile 'com.tt:whorlviewlibrary:1.0.3' //zajebisty progressBar
+    compile 'io.reactivex:rxandroid:0.25.0' //
 }

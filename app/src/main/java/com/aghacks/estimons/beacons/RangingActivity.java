@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aghacks.estimons.Constants;
 import com.aghacks.estimons.MainActivity;
 import com.aghacks.estimons.R;
-import com.aghacks.estimons.Constants;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
@@ -40,6 +40,8 @@ public class RangingActivity extends AppCompatActivity {
     private WhorlView progressBar;
     private TextView rangingEstimonText;
 
+    private boolean activityStarted = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,7 @@ public class RangingActivity extends AppCompatActivity {
         rangingEstimonText.setTypeface(myTypeface);
         showProgressBar(true);
         beaconManager = new BeaconManager(this);
+        beaconManager.setForegroundScanPeriod(500, 0);
     }
 
     public void showProgressBar(final boolean show) {
@@ -112,8 +115,8 @@ public class RangingActivity extends AppCompatActivity {
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
                 showProgressBar(false);
                 for (Beacon b : list) {
-
-                    if (b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)) {
+                    if (!activityStarted && b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)) {
+                        activityStarted = true;
                         Constants.CYAN_MAC = b.getMacAddress();
                         Log.d(TAG, "discovered CYAN: " + b);
                         Intent intent = new Intent(RangingActivity.this, MainActivity.class);

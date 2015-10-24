@@ -1,35 +1,40 @@
-package com.aghacks.estimons.beacons;
+package com.aghacks.estimons.eriks;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.aghacks.estimons.Constants;
+import com.aghacks.estimons.beacons.BeaconConnectionManager;
 import com.estimote.sdk.cloud.model.BeaconInfo;
 import com.estimote.sdk.connection.BeaconConnection;
 import com.estimote.sdk.exception.EstimoteDeviceException;
 
+import rx.Observable;
+import rx.schedulers.Schedulers;
+
 /**
- * Created by Patryk Mieczkowski on 24.10.15
+ * Created by lukasz on 24.10.15.
  */
-public class BeaconConnectionManager {
+public class ConnectionObservable {
 
-    private static final String TAG = BeaconConnectionManager.class.getSimpleName();
-    private Context context;
-    private BeaconConnection connection;
+    public static final String TAG = ConnectionObservable.class.getSimpleName();
+    private static BeaconConnection connection = null;
 
-    public interface WpierdolListener {
-        void setMotionListenerAfterConnected(BeaconConnection connection);
-    }
-    public BeaconConnection getConnection() {
-        return connection;
-    }
-
-    public BeaconConnectionManager(Context context) {
-        this.context = context;
+    @NonNull
+    public static Observable<BeaconConnection>
+    get(Context context, @Nullable BeaconConnectionManager.WpierdolListener listener) {
+        Log.d(TAG, "getBeaconConnection ");
+        return Observable.just(alreadyGetBeaconConnection(context, listener))
+                .observeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.newThread());
     }
 
-    public void establishConnection() {
-        Log.d(TAG, "establishConnection ");
+    private static BeaconConnection
+    alreadyGetBeaconConnection(Context context, @Nullable final BeaconConnectionManager.WpierdolListener listener) {
+        if (connection != null)
+            return connection;
         connection = new BeaconConnection(context, Constants.CYAN_MAC,
                 new BeaconConnection.ConnectionCallback() {
                     @Override
@@ -45,7 +50,9 @@ public class BeaconConnectionManager {
                         Log.d(TAG, "Advertising internal: " + connection.advertisingIntervalMillis().get());
                         Log.d(TAG, "Broadcasting power: " + connection.broadcastingPower().get());
                         Log.d(TAG, "beaconInfo temp: " + String.valueOf(connection.temperature().get()));
-
+                        if (listener != null) {
+                            listener.setMotionListenerAfterConnected(connection);
+                        }
                     }
 
                     @Override
@@ -58,10 +65,10 @@ public class BeaconConnectionManager {
                         Log.d(TAG, "Disconnected");
                     }
                 });
-        connection.authenticate();
+        return connection;
     }
 
-    public void setMotionListener(Object o) {
-        connection.setMotionListener(null);
+    public static BeaconConnection getInstance() {
+        return connection;
     }
 }
