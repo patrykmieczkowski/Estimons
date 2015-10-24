@@ -8,13 +8,16 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.aghacks.estimons.beacons.BeaconConnectionManager;
 import com.aghacks.estimons.database.DetectedPoke;
+import com.aghacks.estimons.beacons.BeaconConnectionManager;
 import com.aghacks.estimons.game.ZawadiakaActivity;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.EstimoteSDK;
@@ -23,11 +26,15 @@ import com.estimote.sdk.connection.Property;
 import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
+
     public static final String TAG = MainActivity.class.getSimpleName();
+
     private ImageView estimonMainImage;
     private TextView nameText, countdownText;
     private FloatingActionButton attackButton, warmButton, eatButton;
     private BeaconConnectionManager beaconConnectionManager;
+    private CountDownTimer countDownTimer;
+    private boolean isCountDownTimerRunning = false;
     private Handler temperatureRefreshHandler;
     private float temperatureValue;
 
@@ -83,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
         eatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Constants.fightEscaped) {
+                if (Constants.fightEscaped && isCountDownTimerRunning) {
                     estimonMainImage.setImageResource(R.drawable.najedzony1);
+                    cancelCountDownTimer();
                     Snackbar.make(v, "Thank you for feeding me my lord!", Snackbar.LENGTH_LONG).show();
                 }
             }
@@ -145,8 +153,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpEstimon(Beacon parcelableExtra) {
 
-//        setYourPokemon(parcelableExtra);
+        setYourPokemon(parcelableExtra);
 
+        Log.d(TAG, "setUpEstimon : all data from beacon:");
+        Log.d(TAG, "mac: " + parcelableExtra.getMacAddress());
+        Log.d(TAG, "proximityUUID: " + parcelableExtra.getProximityUUID());
+        Log.d(TAG, "major: " + parcelableExtra.getMajor());
+        Log.d(TAG, "minor: " + parcelableExtra.getMinor());
+        Log.d(TAG, "measuredPower: " + parcelableExtra.getMeasuredPower());
+        Log.d(TAG, "rssi: " + parcelableExtra.getRssi());
+        Log.d(TAG, "describeContents: " + parcelableExtra.describeContents());
 
         if (Constants.fightEscaped){
             estimonMainImage.setImageResource(R.drawable.glodny1);
@@ -190,7 +206,9 @@ public class MainActivity extends AppCompatActivity {
         if (countdownText.getVisibility()==View.GONE)
             countdownText.setVisibility(View.VISIBLE);
 
-        new CountDownTimer(30000, 1000) {
+        isCountDownTimerRunning = true;
+
+        countDownTimer = new CountDownTimer(10000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 countdownText.setText(String.valueOf(millisUntilFinished / 1000));
@@ -199,7 +217,17 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 if (countdownText.getVisibility()==View.VISIBLE)
                     countdownText.setVisibility(View.GONE);
+                isCountDownTimerRunning = false;
             }
-        }.start();
+        }
+                .start();
+
+    }
+
+    private void cancelCountDownTimer(){
+
+        countDownTimer.cancel();
+        isCountDownTimerRunning = false;
+
     }
 }
