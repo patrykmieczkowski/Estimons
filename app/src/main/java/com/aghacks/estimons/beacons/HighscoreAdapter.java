@@ -1,10 +1,13 @@
 package com.aghacks.estimons.beacons;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.aghacks.estimons.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +27,8 @@ public class HighscoreAdapter extends RecyclerView.Adapter<HighscoreAdapter.VH> 
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
-        View vh=null;
-        if (viewType == 0) {
+        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.highscores_item, parent, false);
 
-//            vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_text_view, parent, false);
-        } else {
-//            vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_text_view, parent, false);
-        }
         return new VH(vh, viewType);
     }
 
@@ -57,8 +55,12 @@ public class HighscoreAdapter extends RecyclerView.Adapter<HighscoreAdapter.VH> 
 
         public VH(View v, int viewType) {
             super(v);
-//            text = v.findViewById();
-
+            text = (TextView) v.findViewById(R.id.highscores_text);
+            parent = (RelativeLayout) v.findViewById(R.id.parent);
+            if (viewType == 0)
+                parent.setBackgroundResource(R.drawable.cz_health1);
+            else
+                parent.setBackgroundResource(R.drawable.n_health1);
         }
     }
 }

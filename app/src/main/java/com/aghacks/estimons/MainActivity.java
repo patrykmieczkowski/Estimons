@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.aghacks.estimons.beacons.BeaconConnectionManager;
 import com.aghacks.estimons.database.DetectedPoke;
+import com.aghacks.estimons.game.HighScoreActivity;
 import com.aghacks.estimons.game.ZawadiakaActivity;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.EstimoteSDK;
@@ -54,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
         nameText = (TextView) findViewById(R.id.estimon_name_text);
         countdownText = (TextView) findViewById(R.id.eat_countdown_timer_text);
         nameText.setTypeface(myTypeface);
+
+        nameText.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent oo = new Intent(MainActivity.this, HighScoreActivity.class);
+                startActivity(oo);
+                return false;
+            }
+        });
         countdownText.setTypeface(myTypeface);
 
         attackButton = (FloatingActionButton) findViewById(R.id.attack_button);
@@ -161,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 //        Log.d(TAG, "rssi: " + parcelableExtra.getRssi());
 //        Log.d(TAG, "describeContents: " + parcelableExtra.describeContents());
 
-        if (Constants.fightEscaped){
+        if (Constants.fightEscaped) {
             estimonMainImage.setImageResource(R.drawable.glodny1);
             eatCountdownTimer();
         } else {
@@ -198,9 +208,9 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
-    private void eatCountdownTimer(){
+    private void eatCountdownTimer() {
 
-        if (countdownText.getVisibility()==View.GONE)
+        if (countdownText.getVisibility() == View.GONE)
             countdownText.setVisibility(View.VISIBLE);
 
         isCountDownTimerRunning = true;
@@ -212,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                if (countdownText.getVisibility()==View.VISIBLE)
+                if (countdownText.getVisibility() == View.VISIBLE)
                     countdownText.setVisibility(View.GONE);
                 isCountDownTimerRunning = false;
                 estimonMainImage.setImageResource(R.drawable.lepa1);
@@ -223,12 +233,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void cancelCountDownTimer(){
+    private void cancelCountDownTimer() {
 
         countDownTimer.cancel();
         isCountDownTimerRunning = false;
 
-        if (countdownText.getVisibility()==View.VISIBLE)
+        if (countdownText.getVisibility() == View.VISIBLE)
             countdownText.setVisibility(View.GONE);
 
     }

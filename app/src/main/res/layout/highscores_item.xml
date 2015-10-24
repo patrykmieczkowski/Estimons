@@ -2,13 +2,10 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60sp"
+    android:id="@+id/parent"
+    android:background="@drawable/n_health1"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/n_health1"/>
 
     <TextView
         android:id="@+id/highscores_text"
