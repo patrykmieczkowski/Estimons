@@ -51,7 +51,7 @@ public class ConnectionObservable {
                         Log.d(TAG, "Broadcasting power: " + connection.broadcastingPower().get());
                         Log.d(TAG, "beaconInfo temp: " + String.valueOf(connection.temperature().get()));
                         if (listener != null) {
-                            listener.onWpierdol();
+                            listener.setMotionListenerAfterConnected(connection);
                         }
                     }
 
@@ -68,4 +68,7 @@ public class ConnectionObservable {
         return connection;
     }
 
+    public static BeaconConnection getInstance() {
+        return connection;
+    }
 }

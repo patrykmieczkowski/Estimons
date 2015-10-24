@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.aghacks.estimons.Constants;
-import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.cloud.model.BeaconInfo;
 import com.estimote.sdk.connection.BeaconConnection;
 import com.estimote.sdk.exception.EstimoteDeviceException;
@@ -20,7 +19,7 @@ public class BeaconConnectionManager {
     private WpierdolListener listener = null;
 
     public interface WpierdolListener {
-        void onWpierdol();
+        void setMotionListenerAfterConnected(BeaconConnection connection);
     }
 
     public void setWpierdolListener(WpierdolListener listener) {
@@ -53,7 +52,7 @@ public class BeaconConnectionManager {
                         Log.d(TAG, "Broadcasting power: " + connection.broadcastingPower().get());
                         Log.d(TAG, "beaconInfo temp: " + String.valueOf(connection.temperature().get()));
                         if (listener != null) {
-                            listener.onWpierdol();
+                            listener.setMotionListenerAfterConnected(connection);
                         }
                     }
 

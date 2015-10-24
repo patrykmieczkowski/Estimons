@@ -18,7 +18,6 @@ import com.aghacks.estimons.Constants;
 import com.aghacks.estimons.MainActivity;
 import com.aghacks.estimons.R;
 import com.aghacks.estimons.beacons.BeaconConnectionManager;
-import com.aghacks.estimons.eriks.ConnectionObservable;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
@@ -28,8 +27,6 @@ import com.estimote.sdk.connection.Property;
 import com.estimote.sdk.exception.EstimoteDeviceException;
 
 import java.util.List;
-
-import rx.Subscriber;
 
 public class FightActivity extends AppCompatActivity {
     public static final String TAG = FightActivity.class.getSimpleName();
@@ -104,45 +101,15 @@ public class FightActivity extends AppCompatActivity {
 
     private void setupConnectionObservable() {
         Log.d(TAG, "setupConnectionObservable ");
-        ConnectionObservable.get(this, new BeaconConnectionManager.WpierdolListener() {
+        final BeaconConnectionManager manager = new BeaconConnectionManager(this);
+        manager.setWpierdolListener(new BeaconConnectionManager.WpierdolListener() {
             @Override
-            public void onWpierdol() {
-                Log.d(TAG, "onWpierdol ");
-            }
-        }).subscribe(new Subscriber<BeaconConnection>() {
-            @Override
-            public void onCompleted() {
-                Log.d(TAG, "onCompleted ");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, "onError ");
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(BeaconConnection beaconConnection) {
-                Log.d(TAG, "onNext ");
-                if (beaconConnection != null) {
-                    beaconConnection.authenticate();
-                    setAccelerometerCallback(beaconConnection);
-                }
+            public void setMotionListenerAfterConnected(BeaconConnection connection) {
+                Log.d(TAG, "setMotionListenerAfterConnected ");
+                setAccelerometerCallback(connection);
             }
         });
-
-//        beaconConnectionManager = new BeaconConnectionManager(this);
-//        beaconConnectionManager.setWpierdolListener(new BeaconConnectionManager.WpierdolListener() {
-//            @Override
-//            public void onWpierdol() {
-//                Log.d(TAG, "wpierdol listener set ");
-//                if (beaconConnectionManager != null && beaconConnectionManager.getConnection() != null) {
-//                    thisConnection = beaconConnectionManager.getConnection();
-//                    setAccelerometerCallback();
-//                }
-//            }
-//        });
-//        beaconConnectionManager.establishConnection();
+        manager.establishConnection();
     }
 
     private void setAccelerometerCallback(final BeaconConnection beaconConnection) {
@@ -152,6 +119,7 @@ public class FightActivity extends AppCompatActivity {
             return;
         }
         beaconConnection.edit().set(beaconConnection.motionDetectionEnabled(), true)
+                .set(beaconConnection.advertisingIntervalMillis(), 500)
                 .commit(new BeaconConnection.WriteCallback() {
                     @Override
                     public void onSuccess() {
