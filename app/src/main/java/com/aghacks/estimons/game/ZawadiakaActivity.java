@@ -34,7 +34,11 @@ public class ZawadiakaActivity extends AppCompatActivity {
     private List<String> detectedPokesMacs = new ArrayList<>();
     private TextView rangingEstimonText;
     private boolean startedNewActivity = false;
-
+    @Override
+    protected void onStop() {
+        beaconManager.disconnect();
+        super.onStop();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

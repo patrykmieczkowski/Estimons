@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private Handler temperatureRefreshHandler;
     private float temperatureValue;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         checkBeaconInfo();
         getViews();
         setUpEstimon((Beacon) getIntent().getParcelableExtra(Constants.NEARABLE_ESTIMON));
+        if(getIntent().hasExtra(Constants.FEED_ME)){
+            estimonMainImage.setImageResource(R.drawable.glodny2);
+        }
     }
 
     private void getViews() {
@@ -263,8 +268,7 @@ public class MainActivity extends AppCompatActivity {
                 }.start();
 
             }
-        }
-                .start();
+        }.start();
 
     }
 
@@ -275,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (countdownText.getVisibility() == View.VISIBLE)
             countdownText.setVisibility(View.GONE);
-
     }
+
+
 }
