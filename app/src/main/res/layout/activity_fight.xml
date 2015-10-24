@@ -21,60 +21,53 @@
         android:id="@+id/yourEstimon"
         android:layout_width="120sp"
         android:layout_height="160sp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/opponent"
-        android:src="@drawable/cz_atak2" />
+        android:src="@drawable/cz_atak2"
+        android:layout_above="@+id/run_fight__button"
+        android:layout_alignStart="@+id/run_fight__button"
+        android:layout_marginBottom="60dp" />
 
     <ImageView
         android:id="@+id/opponent"
         android:layout_width="120sp"
         android:layout_height="160sp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textView4"
-        android:layout_marginTop="68dp"
-        android:src="@drawable/atak1" />
+        android:src="@drawable/atak1"
+        android:layout_alignBottom="@+id/opponentHp"
+        android:layout_alignEnd="@+id/attack_fight_button" />
 
-    <ProgressBar
-        android:id="@+id/yourPokeHp"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="150sp"
-        android:layout_height="20sp"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/yourEstimon"
-        android:background="#ffbc35" />
-
-    <ProgressBar
+    <ImageView
         android:id="@+id/opponentHp"
-        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="150sp"
         android:layout_height="20sp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/opponent"
-        android:background="#dd2aa4" />
+        android:src="@drawable/cz_health1"
+        android:layout_above="@+id/yourEstimon"
+        android:layout_alignParentStart="true" />
 
-    <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/yourPokeHp"
+        android:layout_width="150sp"
+        android:layout_height="20sp"
+        android:src="@drawable/n_health1"
+        android:layout_above="@+id/opponent"
+        android:layout_alignParentEnd="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/attack_fight_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:src="@drawable/attack_icon"
+        app:backgroundTint="@color/attack_icon_color"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/attack_fight_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/attack_icon"
-            app:backgroundTint="@color/attack_icon_color" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/run_fight__button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/run_icon"
-            app:backgroundTint="@color/fish_icon_color" />
-
-    </android.support.design.widget.CoordinatorLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/run_fight__button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/run_icon"
+        app:backgroundTint="@color/fish_icon_color"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
