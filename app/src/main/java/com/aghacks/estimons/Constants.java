@@ -20,6 +20,7 @@ public class Constants {
     public static final String STICKER_IDENTIFIER = "991aff45011b2f63";
     public static boolean fightEscaped = false;
 
+    public static boolean connected = false;
 
     public static final int MAIN = 0;
     public static final int ZAWADIAKA = 1;
@@ -47,6 +48,12 @@ public class Constants {
         Log.d(TAG, "bindTextView ");
         textView = textView1;
         activity = act;
-
     }
+
+    public static Progressable progressable;
+
+    public static void bindWhorl(Progressable _progressable) {
+        progressable = _progressable;
+    }
+
 }

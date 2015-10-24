@@ -9,5 +9,7 @@ public class RandUtils {
 
     private static final Random rand = new Random();
 
-
+    public static long from(int leftBound, int rightBound) {
+        return leftBound + rand.nextInt(rightBound - leftBound);
+    }
 }

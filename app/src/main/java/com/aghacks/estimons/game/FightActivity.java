@@ -18,20 +18,23 @@ import android.widget.Toast;
 
 import com.aghacks.estimons.Constants;
 import com.aghacks.estimons.MainActivity;
+import com.aghacks.estimons.Progressable;
 import com.aghacks.estimons.R;
 import com.aghacks.estimons.beacons.BeaconConnectionManager;
 import com.aghacks.estimons.beacons.BeaconMotionManager;
+import com.aghacks.estimons.util.RandUtils;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
+import com.tt.whorlviewlibrary.WhorlView;
 
 import java.util.List;
 
-public class FightActivity extends AppCompatActivity {
+public class FightActivity extends AppCompatActivity implements Progressable {
     public static final String TAG = FightActivity.class.getSimpleName();
 
     BeaconMotionManager manager;
-    public TextView info, info2, actionText;//, info3;
+    public TextView info, actionText;//, info3;
     private RelativeLayout parent;
     private BeaconManager beaconManager;
     private BeaconConnectionManager beaconConnectionManager;
@@ -41,19 +44,19 @@ public class FightActivity extends AppCompatActivity {
     private long lastNotification = -1;
     private long previousNotification = -1;
     private android.os.Handler handler;
+    private WhorlView progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fight_new);
         info = (TextView) findViewById(R.id.textView4);
-        info2 = (TextView) findViewById(R.id.textView42);
 //        info3 = (TextView) findViewById(R.id.textView8);
         parent = (RelativeLayout) findViewById(R.id.parent);
         parent.setBackgroundColor(Color.LTGRAY);
-
+        progressBar = (WhorlView) findViewById(R.id.progressBarRanging);
         Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
-        actionText = (TextView) findViewById(R.id.estimon_name_text);
+        actionText = (TextView) findViewById(R.id.action_text);
         actionText.setTypeface(myTypeface);
 
         injectViews();
@@ -61,7 +64,9 @@ public class FightActivity extends AppCompatActivity {
         beaconManager = new BeaconManager(this);
 //        beaconManager.setForegroundScanPeriod(500, 0);
         handler = new Handler();
-        Constants.bindTextView(info2, this);
+        Constants.bindTextView(actionText, this);
+        Constants.bindWhorl(this);
+        showProgressBar(true);
     }
 
     private void setupTheGame() {
@@ -131,16 +136,25 @@ public class FightActivity extends AppCompatActivity {
 
     public void startGame() {
         Log.d(TAG, "startGame ");
+        if (Constants.connected) {
+            showProgressBar(false);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    actionText.setText("MOVE YOUR BEACON!");
+                    Constants.startAction = System.currentTimeMillis();
+                }
+            }, RandUtils.from(1000, 6000));
+            actionText.setText("READY...");
+        }
+    }
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                info2.setText("MOVE YOUR BEACON!");
-                Constants.startAction = System.currentTimeMillis();
-            }
-        }, 1000);
-        info2.setText("READY...");
-
+    @Override
+    public void showProgressBar(final boolean show) {
+        Log.d(TAG, "showProgressBar ");
+        int vis = show ? View.VISIBLE : View.GONE;
+        progressBar.start();
+        progressBar.setVisibility(vis);
     }
 
     @Override

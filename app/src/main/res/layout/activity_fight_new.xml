@@ -14,14 +14,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1dp"
-        android:text="@string/hello_world"
+
         android:textSize="25sp" />
 
     <TextView
-        android:id="@+id/textView42"
+        android:id="@+id/action_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/hello_world"
         android:textSize="35sp"
         android:layout_above="@+id/opponentHp"
         android:layout_marginBottom="30dp"
@@ -80,5 +79,17 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/run_icon"
         app:backgroundTint="@color/fish_icon_color" />
-
+    <com.tt.whorlviewlibrary.WhorlView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/progressBarRanging"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="visible"
+        app:whorlview_circle_colors="#F14336_#c0392b_#2980b9_#f39c12_#16a085"
+        app:whorlview_circle_speed="270"
+        app:whorlview_parallax="medium"
+        app:whorlview_strokeWidth="6"
+        app:whorlview_sweepAngle="90" />
 </RelativeLayout>

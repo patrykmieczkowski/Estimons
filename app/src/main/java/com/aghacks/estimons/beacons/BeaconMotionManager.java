@@ -48,7 +48,8 @@ public class BeaconMotionManager {
                     public void onAuthorized(BeaconInfo beaconInfo) {
                         Log.d(TAG, "onAuthorized ");
                         if (listener != null)
-                            listener.broadcastActivity("on Authorized");
+                            listener.broadcastActivity("authorizing...");
+
                     }
 
                     @Override
@@ -57,7 +58,7 @@ public class BeaconMotionManager {
                         Log.d(TAG, "Advertising internal: " + connection.advertisingIntervalMillis().get());
                         Log.d(TAG, "Broadcasting power: " + connection.broadcastingPower().get());
                         Log.d(TAG, "beaconInfo temp: " + String.valueOf(connection.temperature().get()));
-
+                        Constants.connected = true;
                         connection.edit().set(connection.motionDetectionEnabled(), true)
 //                                .set(connection.advertisingIntervalMillis(), 500)
                                 .commit(new BeaconConnection.WriteCallback() {
@@ -68,8 +69,17 @@ public class BeaconMotionManager {
                                         String motionMessage = String.valueOf(
                                                 connection.motionDetectionEnabled().get()
                                                         ? connection.motionState().get() : null);
-                                        if (listener != null)
-                                            listener.broadcastActivity("MOTION DETECTION ENABLED");
+                                        if (listener != null) {
+                                            listener.broadcastActivity("connection established");
+                                            if (Constants.progressable != null) {
+                                                Constants.activity.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Constants.progressable.showProgressBar(false);
+                                                    }
+                                                });
+                                            }
+                                        }
                                         enableMotionListner();
                                     }
 
