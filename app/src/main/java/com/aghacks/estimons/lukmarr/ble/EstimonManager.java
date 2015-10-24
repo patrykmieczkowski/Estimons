@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.aghacks.estimons.database.DetectedPoke;
-import com.aghacks.estimons.lukmarr.Constants;
+import com.aghacks.estimons.Constants;
 import com.estimote.sdk.Beacon;
 
 import java.util.UUID;

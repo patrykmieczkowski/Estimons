@@ -13,10 +13,11 @@ import android.widget.Toast;
 
 import com.aghacks.estimons.R;
 import com.aghacks.estimons.database.DetectedPoke;
-import com.aghacks.estimons.lukmarr.Constants;
+import com.aghacks.estimons.Constants;
 import com.aghacks.estimons.lukmarr.ble.EstimonManager;
+import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.Nearable;
+import com.estimote.sdk.Region;
 import com.tt.whorlviewlibrary.WhorlView;
 
 import java.util.ArrayList;
@@ -127,27 +128,32 @@ public class ZawadiakaActivity extends AppCompatActivity {
 
     private void connectToService() {
 //        toolbar.setSubtitle("Scanning...");
-        beaconManager.setNearableListener(new BeaconManager.NearableListener() {
+
+        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
-            public void onNearablesDiscovered(List<Nearable> list) {
-                for (Nearable nearable : list) {
-                    Log.d(TAG, "next nearable: " + nearable);
-                    if (true || nearable.identifier.equals(Constants.STICKER_IDENTIFIER)) {
+            public void onBeaconsDiscovered(Region region, List<Beacon> list) {
+                for (Beacon b : list) {
+
+                    if (!b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)
+//                            && detectedPokesMacs.contains(b.getMacAddress().toStandardString())
+
+                            ) {
                         showProgressBar(false);
-                        Log.d(TAG, "discovered OPPONENT for wpierdol: " + nearable);
+                        Log.d(TAG, "discovered OPPONENT for wpierdol: " + b);
                         Intent intent = new Intent(ZawadiakaActivity.this, FightActivity.class);
-                        intent.putExtra(Constants.NEARABLE_ESTIMON, nearable);
+                        intent.putExtra(Constants.NEARABLE_ESTIMON, b);
+
                         startActivity(intent);
                         finish();
                     }
                 }
             }
         });
+
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
             public void onServiceReady() {
-//                beaconManager.startRanging(Constants.ALL_ESTIMOTE_BEACONS_REGION);
-                beaconManager.startNearableDiscovery();
+                beaconManager.startRanging(Constants.ALL_ESTIMOTE_BEACONS_REGION);
             }
         });
     }
