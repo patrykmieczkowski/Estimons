@@ -101,7 +101,6 @@ public class RangingActivity extends AppCompatActivity {
 
     private void connectToService() {
 //        toolbar.setSubtitle("Scanning...");
-
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
@@ -119,18 +118,6 @@ public class RangingActivity extends AppCompatActivity {
                 }
             }
         });
-//        beaconManager.setNearableListener(new BeaconManager.NearableListener() {
-//            @Override
-//            public void onNearablesDiscovered(List<Nearable> list) {
-//                for (Nearable b : list) {
-//                    Log.d(TAG, "discovered CYAN: " + b);
-//                    Intent intent = new Intent(RangingActivity.this, MainActivity.class);
-//                    intent.putExtra(Constants.NEARABLE_ESTIMON, b);
-//                    startActivity(intent);
-//                    finish();
-//                }
-//            }
-//        });
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
             public void onServiceReady() {
