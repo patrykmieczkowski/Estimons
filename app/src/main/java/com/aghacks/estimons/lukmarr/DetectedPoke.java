@@ -9,10 +9,10 @@ import io.realm.annotations.PrimaryKey;
 public class DetectedPoke extends RealmObject {
 
     @PrimaryKey
-    String estimonId;
-    String name;
-    int happiness;
-    int health;
+    private String estimonId;
+    private String name;
+    private int happiness;
+    private int health;
 
     public DetectedPoke() {
     }
