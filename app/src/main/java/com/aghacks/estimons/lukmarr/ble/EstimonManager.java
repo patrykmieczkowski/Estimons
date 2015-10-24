@@ -67,7 +67,7 @@ public class EstimonManager {
     public static DetectedPoke getMyPoke(Context c) {
         Realm r = Realm.getInstance(c);
         r.beginTransaction();
-        DetectedPoke p = r.where(DetectedPoke.class).equalTo("estimonId","1",false).findFirst();
+        DetectedPoke p = r.where(DetectedPoke.class).equalTo("estimonId", "1", false).findFirst();
         r.commitTransaction();
         return p;
     }
