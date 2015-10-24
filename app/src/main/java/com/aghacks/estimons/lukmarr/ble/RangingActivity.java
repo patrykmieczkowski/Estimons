@@ -12,8 +12,9 @@ import android.widget.Toast;
 import com.aghacks.estimons.MainActivity;
 import com.aghacks.estimons.R;
 import com.aghacks.estimons.lukmarr.Constants;
+import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.Nearable;
+import com.estimote.sdk.Region;
 import com.tt.whorlviewlibrary.WhorlView;
 
 import java.util.List;
@@ -101,39 +102,39 @@ public class RangingActivity extends AppCompatActivity {
     private void connectToService() {
 //        toolbar.setSubtitle("Scanning...");
 
-//        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
-//            @Override
-//            public void onBeaconsDiscovered(Region region, List<Beacon> list) {
-//                showProgressBar(false);
-//                for (Beacon b : list) {
-//
-//                    if (b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC)) {
-//                        Log.d(TAG, "discovered CYAN: " + b);
-//                        Intent intent = new Intent(RangingActivity.this, MainActivity.class);
-//                        intent.putExtra(Constants.NEARABLE_ESTIMON, b);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                }
-//            }
-//        });
-        beaconManager.setNearableListener(new BeaconManager.NearableListener() {
+        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
-            public void onNearablesDiscovered(List<Nearable> list) {
-                for (Nearable b : list) {
-                    Log.d(TAG, "discovered CYAN: " + b);
-                    Intent intent = new Intent(RangingActivity.this, MainActivity.class);
-                    intent.putExtra(Constants.NEARABLE_ESTIMON, b);
-                    startActivity(intent);
-                    finish();
+            public void onBeaconsDiscovered(Region region, List<Beacon> list) {
+                showProgressBar(false);
+                for (Beacon b : list) {
+
+                    if (b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC)) {
+                        Log.d(TAG, "discovered CYAN: " + b);
+                        Intent intent = new Intent(RangingActivity.this, MainActivity.class);
+                        intent.putExtra(Constants.NEARABLE_ESTIMON, b);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });
+//        beaconManager.setNearableListener(new BeaconManager.NearableListener() {
+//            @Override
+//            public void onNearablesDiscovered(List<Nearable> list) {
+//                for (Nearable b : list) {
+//                    Log.d(TAG, "discovered CYAN: " + b);
+//                    Intent intent = new Intent(RangingActivity.this, MainActivity.class);
+//                    intent.putExtra(Constants.NEARABLE_ESTIMON, b);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }
+//        });
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
             public void onServiceReady() {
-//                beaconManager.startRanging(Constants.ALL_ESTIMOTE_BEACONS_REGION);
-                beaconManager.startNearableDiscovery();
+                beaconManager.startRanging(Constants.ALL_ESTIMOTE_BEACONS_REGION);
+//                beaconManager.startNearableDiscovery();
             }
         });
     }
