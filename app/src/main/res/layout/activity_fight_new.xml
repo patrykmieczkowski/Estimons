@@ -4,27 +4,39 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/zawadiaka_activity_background"
+    android:background="@drawable/main_activity_background"
     tools:context="com.aghacks.estimons.game.FightActivity">
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:id="@+id/display_message_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="1dp"
-
-        android:textSize="25sp" />
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:textSize="25sp"
+        tools:text="prepare" />
 
     <TextView
-        android:id="@+id/action_text"
+        android:id="@+id/action_text_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/yourPokeHp"
+        android:layout_alignStart="@+id/opponent"
+        android:layout_marginBottom="20dp"
         android:textSize="35sp"
+        tools:text="402" />
+
+    <TextView
+        android:id="@+id/action_text_opp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/opponentHp"
-        android:layout_marginBottom="30dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignEnd="@+id/yourEstimon"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="35sp"
+        tools:text="100" />
 
     <ImageView
         android:id="@+id/yourEstimon"
@@ -79,8 +91,8 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/run_icon"
         app:backgroundTint="@color/fish_icon_color" />
-    <com.tt.whorlviewlibrary.WhorlView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/progressBarRanging"
         android:layout_width="1dp"
         android:layout_height="1dp"
@@ -92,4 +104,5 @@
         app:whorlview_parallax="medium"
         app:whorlview_strokeWidth="6"
         app:whorlview_sweepAngle="90" />
+
 </RelativeLayout>
