@@ -2,9 +2,11 @@ package com.aghacks.estimons;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aghacks.estimons.util.HighScoreUtils;
+import com.aghacks.estimons.util.RandUtils;
 import com.estimote.sdk.MacAddress;
 import com.estimote.sdk.Region;
 
@@ -28,30 +30,71 @@ public class Constants {
     public static final int FIGHT = 2;
     public static long endAction = 0;
     public static long startAction = 0;
-    public static TextView textView;
+    public static TextView userTextView;
+    //    public static TextView opponentTextView;
     public static Activity activity;
     public static boolean startedGame = false;
+    public static int userPoints = 0, oppPoints = 0;
+
+    public static final int[] userBar = new int[]{
+            R.drawable.cz_health1, R.drawable.cz_health3, R.drawable.cz_health4, R.drawable.cz_health6,};
+    public static final int[] oppBar = new int[]{
+            R.drawable.n_health1, R.drawable.n_health3, R.drawable.n_health4, R.drawable.n_health6,};
+
+    public static void setup() {
+        userPoints = 0;
+        oppPoints = 0;
+    }
+
+    public static boolean frozen = false;
 
     public static void calculateAccuracy() {
-        final long diff = (endAction - startAction);
-        Log.d(TAG, "calculateAccuracy : " + diff);
+        if (frozen) return;
+        final long userScore = (endAction - startAction);
+        Log.d(TAG, "calculateAccuracy : " + userScore);
         if (activity != null) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "run ");
-                    textView.setText(String.valueOf(diff));
-                    HighScoreUtils.addToHighScore((int) diff, activity);
+                    userTextView.setText(String.valueOf(userScore));
+
+                    long opponentScore = RandUtils.getAIScore();
+                    if (opponentScore < userScore) {
+                        //opp win
+                        oppPoints++;
+                        userImageViewBar.setImageResource(userBar[oppPoints % userBar.length]);
+                    } else {
+                        //user win
+                        userPoints++;
+                        oppImageViewBar.setImageResource(oppBar[userPoints % userBar.length]);
+                    }
+                    if (userPoints > userBar.length) {
+                        Log.i(TAG, "USER WIN ");
+                    } else if (oppPoints > userBar.length) {
+                        Log.i(TAG, "OPP WIN ");
+                    }
+
+                    HighScoreUtils.addToHighScore((int) userScore, activity);
+                    progressable.delay(5000);
                 }
             });
         }
     }
 
-    public static void bindTextView(TextView textView1, Activity act) {
+    public static void bindTextView(TextView textView1, TextView t2,
+                                    ImageView userIm, ImageView oppIm,
+                                    Activity act) {
         Log.d(TAG, "bindTextView ");
-        textView = textView1;
+        userTextView = textView1;
         activity = act;
+//        opponentTextView = t2;
+        userImageViewBar = userIm;
+        oppImageViewBar = oppIm;
+
     }
+
+    private static ImageView userImageViewBar, oppImageViewBar;
 
     public static Progressable progressable;
 

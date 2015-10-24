@@ -5,4 +5,6 @@ package com.aghacks.estimons;
  */
 public interface Progressable {
     void showProgressBar(boolean show);
+
+    void delay(int i);
 }

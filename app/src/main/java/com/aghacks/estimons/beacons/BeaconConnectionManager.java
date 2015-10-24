@@ -45,7 +45,6 @@ public class BeaconConnectionManager {
                         Log.d(TAG, "Advertising internal: " + connection.advertisingIntervalMillis().get());
                         Log.d(TAG, "Broadcasting power: " + connection.broadcastingPower().get());
                         Log.d(TAG, "beaconInfo temp: " + String.valueOf(connection.temperature().get()));
-
                     }
 
                     @Override

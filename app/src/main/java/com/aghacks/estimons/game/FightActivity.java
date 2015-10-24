@@ -64,7 +64,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
         beaconManager = new BeaconManager(this);
 //        beaconManager.setForegroundScanPeriod(500, 0);
         handler = new Handler();
-        Constants.bindTextView(actionText, this);
+        Constants.bindTextView(actionText, null, barOpponent, barEstimon, this);
         Constants.bindWhorl(this);
         showProgressBar(true);
     }
@@ -137,8 +137,10 @@ public class FightActivity extends AppCompatActivity implements Progressable {
     public void startGame() {
         Log.d(TAG, "startGame ");
         Constants.startedGame = true;
+
         if (Constants.connected) {
             showProgressBar(false);
+            actionText.setText("READY...");
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -146,7 +148,8 @@ public class FightActivity extends AppCompatActivity implements Progressable {
                     Constants.startAction = System.currentTimeMillis();
                 }
             }, RandUtils.from(1000, 6000));
-            actionText.setText("READY...");
+
+
         }
     }
 
@@ -156,6 +159,17 @@ public class FightActivity extends AppCompatActivity implements Progressable {
         int vis = show ? View.VISIBLE : View.GONE;
         progressBar.start();
         progressBar.setVisibility(vis);
+    }
+
+    @Override
+    public void delay(int i) {
+        Constants.frozen = false;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Constants.frozen = false;
+            }
+        }, i);
     }
 
     @Override

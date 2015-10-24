@@ -12,4 +12,9 @@ public class RandUtils {
     public static long from(int leftBound, int rightBound) {
         return leftBound + rand.nextInt(rightBound - leftBound);
     }
+
+    public static long getAIScore() {
+        return 650 + rand.nextInt(500);
+    }
+
 }
