@@ -10,7 +10,6 @@
 
     <uses-feature android:name="android.hardware.bluetooth" />
     <uses-feature android:name="android.bluetooth.le" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

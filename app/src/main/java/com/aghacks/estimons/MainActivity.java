@@ -3,7 +3,9 @@ package com.aghacks.estimons;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,7 +20,7 @@ import com.aghacks.estimons.lukmarr.beacons.BeaconConnectionManager;
 import com.aghacks.estimons.lukmarr.zawadiaka.ZawadiakaActivity;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.EstimoteSDK;
-import com.estimote.sdk.Nearable;
+import com.estimote.sdk.connection.Property;
 
 import io.realm.Realm;
 
@@ -26,8 +28,11 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     private ImageView estimonMainImage;
     private TextView beaconFarText, nameText;
-    FloatingActionButton attackButton;
+    FloatingActionButton attackButton, warmButton;
     private int estimonRange = 2;
+    private BeaconConnectionManager beaconConnectionManager;
+    private Handler temperatureRefreshHandler;
+    private float temperatureValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +40,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        getViews();
+        temperatureRefreshHandler = new Handler();
 
         EstimoteSDK.initialize(this, "estimons-mzy", "e2c71dee0a386b6a548d0cde0754384a");
 
 
         checkBeaconInfo();
 
-
+        getViews();
         setUpEstimon((Beacon) getIntent().getParcelableExtra(Constants.NEARABLE_ESTIMON));
 
     }
@@ -88,6 +92,19 @@ public class MainActivity extends AppCompatActivity {
         nameText.setTypeface(myTypeface);
 
         attackButton = (FloatingActionButton) findViewById(R.id.attack_button);
+        warmButton = (FloatingActionButton) findViewById(R.id.warm_button);
+        warmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                temperatureRefreshHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshTemperature();
+                    }
+                });
+
+            }
+        });
         attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +116,59 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        if (connectionNonNull()) {
+            beaconConnectionManager.setMotionListener(null);
+        }
+        temperatureRefreshHandler.removeCallbacks(null);
+        super.onPause();
+    }
+
+    private boolean tempNonNull() {
+        return connectionNonNull() &&
+                beaconConnectionManager.getConnection().temperature() != null &&
+                beaconConnectionManager.getConnection().temperature().get() != null;
+    }
+
+    private boolean connectionNonNull() {
+        return beaconConnectionManager != null &&
+                beaconConnectionManager.getConnection() != null;
+    }
+
+    private void refreshTemperature() {
+        Log.d(TAG, "refreshTemperature ");
+        if (tempNonNull()) {
+            beaconConnectionManager.getConnection().temperature().getAsync(new Property.Callback<Float>() {
+                @Override
+                public void onValueReceived(final Float value) {
+                    if (isDestroyed()) {
+                        return;
+                    }
+                    temperatureValue = value;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (attackButton != null && attackButton.isShown())
+                                Snackbar.make(attackButton,
+                                        "Temperature "
+                                                + temperatureValue, Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure() {
+                    Log.d(TAG, "onFailure read temperature");
+                }
+            });
+        } else {
+            Log.e(TAG, "refreshTemperature failed due to null object reference");
+            Snackbar.make(attackButton,
+                    "Temperature not available yet", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private void setUpEstimon(Beacon parcelableExtra) {
@@ -149,11 +219,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkBeaconInfo(){
+    private void checkBeaconInfo() {
+        Log.d(TAG, "checkBeaconInfo ");
 
-        BeaconConnectionManager beaconConnectionManager;
         beaconConnectionManager = new BeaconConnectionManager(this);
-
         beaconConnectionManager.establishConnection();
     }
 

@@ -1,10 +1,10 @@
 package com.aghacks.estimons.lukmarr.beacons;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
 import com.aghacks.estimons.Constants;
-import com.estimote.sdk.EstimoteSDK;
 import com.estimote.sdk.cloud.model.BeaconInfo;
 import com.estimote.sdk.connection.BeaconConnection;
 import com.estimote.sdk.exception.EstimoteDeviceException;
@@ -15,21 +15,25 @@ import com.estimote.sdk.exception.EstimoteDeviceException;
 public class BeaconConnectionManager {
 
     private static final String TAG = BeaconConnectionManager.class.getSimpleName();
-
+    private Activity activity;
     private Context context;
     private BeaconConnection connection;
 
+    public BeaconConnection getConnection() {
+        return connection;
+    }
 
     public BeaconConnectionManager(Context context) {
         this.context = context;
     }
 
     public void establishConnection() {
-
+        Log.d(TAG, "establishConnection ");
         connection = new BeaconConnection(context, Constants.CYAN_MAC,
                 new BeaconConnection.ConnectionCallback() {
                     @Override
                     public void onAuthorized(BeaconInfo beaconInfo) {
+                        Log.d(TAG, "onAuthorized ");
 //                        EstimoteSDK.initialize(context, "estimons-mzy", "e2c71dee0a386b6a548d0cde0754384a");
 //                        connection.authenticate();
 
@@ -40,6 +44,7 @@ public class BeaconConnectionManager {
                         Log.d(TAG, "Authenticated to beacon. Info: " + beaconInfo);
                         Log.d(TAG, "Advertising internal: " + connection.advertisingIntervalMillis().get());
                         Log.d(TAG, "Broadcasting power: " + connection.broadcastingPower().get());
+                        Log.d(TAG, "beaconInfo temp: " + String.valueOf(connection.temperature().get()));
                     }
 
                     @Override
@@ -53,7 +58,9 @@ public class BeaconConnectionManager {
                     }
                 });
         connection.authenticate();
-
     }
 
+    public void setMotionListener(Object o) {
+        connection.setMotionListener(null);
+    }
 }
