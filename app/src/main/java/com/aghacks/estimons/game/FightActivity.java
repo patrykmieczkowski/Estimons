@@ -30,7 +30,7 @@ public class FightActivity extends AppCompatActivity {
     public static final String TAG = FightActivity.class.getSimpleName();
 
     BeaconMotionManager manager;
-    public TextView info, info2, info3;
+    public TextView info, info2;//, info3;
     private RelativeLayout parent;
     private BeaconManager beaconManager;
     private BeaconConnectionManager beaconConnectionManager;
@@ -46,7 +46,7 @@ public class FightActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fight_new);
         info = (TextView) findViewById(R.id.textView4);
-        info2 = (TextView) findViewById(R.id.textView6);
+        info2 = (TextView) findViewById(R.id.textView42);
 //        info3 = (TextView) findViewById(R.id.textView8);
         parent = (RelativeLayout) findViewById(R.id.parent);
         parent.setBackgroundColor(Color.LTGRAY);
@@ -56,6 +56,7 @@ public class FightActivity extends AppCompatActivity {
         beaconManager = new BeaconManager(this);
 //        beaconManager.setForegroundScanPeriod(500, 0);
         handler = new Handler();
+        Constants.bindTextView(info2, this);
     }
 
     private void setupTheGame() {

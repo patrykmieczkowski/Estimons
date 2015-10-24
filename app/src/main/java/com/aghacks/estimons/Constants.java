@@ -1,6 +1,8 @@
 package com.aghacks.estimons;
 
+import android.app.Activity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.estimote.sdk.MacAddress;
 import com.estimote.sdk.Region;
@@ -24,8 +26,27 @@ public class Constants {
     public static final int FIGHT = 2;
     public static long endAction = 0;
     public static long startAction = 0;
+    public static TextView textView;
+    public static Activity activity;
 
     public static void calculateAccuracy() {
-        Log.d(TAG, "calculateAccuracy : " + (endAction - startAction));
+        final long diff = (endAction - startAction);
+        Log.d(TAG, "calculateAccuracy : " + diff);
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "run ");
+                    textView.setText(String.valueOf(diff));
+                }
+            });
+        }
+    }
+
+    public static void bindTextView(TextView textView1, Activity act) {
+        Log.d(TAG, "bindTextView ");
+        textView = textView1;
+        activity = act;
+
     }
 }
