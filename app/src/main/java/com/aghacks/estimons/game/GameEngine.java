@@ -1,7 +1,7 @@
 package com.aghacks.estimons.game;
 
 import android.util.Log;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 
 import java.util.Random;
 
@@ -18,9 +18,9 @@ public class GameEngine {
     private static Random randInstance = new Random();
     private static int opponentHp, yourPokeHp;
     private static EndGameListener listener;
-    private static ProgressBar barY, barO;
+    private static ImageView barY, barO;
 
-    public static void bindProgressBars(ProgressBar barEstimon, ProgressBar barOpponent) {
+    public static void bindProgressBars(ImageView barEstimon, ImageView barOpponent) {
         barY = barEstimon;
         barO = barOpponent;
     }
@@ -88,19 +88,19 @@ public class GameEngine {
 
     private static void manageInjury(boolean isOpponent, int value) {
         Log.d(TAG, "manageInjury ");
-        if (isOpponent) {
-            opponentHp -= value;
-            if (opponentHp < 0)
-                barO.setProgress(0);
-            else
-                barO.setProgress(opponentHp);
-        } else {
-            yourPokeHp -= value;
-            if (yourPokeHp < 0)
-                barY.setProgress(0);
-            else
-                barY.setProgress(yourPokeHp);
-        }
+//        if (isOpponent) {
+//            opponentHp -= value;
+//            if (opponentHp < 0)
+//                barO.setProgress(0);
+//            else
+//                barO.setProgress(opponentHp);
+//        } else {
+//            yourPokeHp -= value;
+//            if (yourPokeHp < 0)
+//                barY.setProgress(0);
+//            else
+//                barY.setProgress(yourPokeHp);
+//        }
         if (youFailed()) {
             Log.d(TAG, "game failed");
             listener.onGameFailed();

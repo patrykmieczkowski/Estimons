@@ -10,7 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,13 +30,13 @@ public class FightActivity extends AppCompatActivity {
     public static final String TAG = FightActivity.class.getSimpleName();
 
     BeaconMotionManager manager;
-    public TextView info, info2,info3;
+    public TextView info, info2, info3;
     private RelativeLayout parent;
     private BeaconManager beaconManager;
     private BeaconConnectionManager beaconConnectionManager;
     private FloatingActionButton attackButton, runButton;
     //    private Beacon opponentBeacon = null;
-    private ProgressBar barEstimon, barOpponent;
+    private ImageView barEstimon, barOpponent;
     private long lastNotification = -1;
     private long previousNotification = -1;
     private android.os.Handler handler;
@@ -44,10 +44,10 @@ public class FightActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fight);
+        setContentView(R.layout.activity_fight_new);
         info = (TextView) findViewById(R.id.textView4);
         info2 = (TextView) findViewById(R.id.textView6);
-        info3 = (TextView) findViewById(R.id.textView8);
+//        info3 = (TextView) findViewById(R.id.textView8);
         parent = (RelativeLayout) findViewById(R.id.parent);
         parent.setBackgroundColor(Color.LTGRAY);
 
@@ -79,8 +79,8 @@ public class FightActivity extends AppCompatActivity {
     private void injectViews() {
         Log.d(TAG, "injectViews ");
 
-        barEstimon = (ProgressBar) findViewById(R.id.yourPokeHp);
-        barOpponent = (ProgressBar) findViewById(R.id.opponentHp);
+        barEstimon = (ImageView) findViewById(R.id.yourPokeHp);
+        barOpponent = (ImageView) findViewById(R.id.opponentHp);
         attackButton = (FloatingActionButton) findViewById(R.id.attack_fight_button);
         runButton = (FloatingActionButton) findViewById(R.id.run_fight__button);
         runButton.setOnClickListener(new View.OnClickListener() {

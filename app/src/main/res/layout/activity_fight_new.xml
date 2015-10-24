@@ -23,7 +23,7 @@
         android:layout_height="160sp"
         android:layout_above="@+id/run_fight__button"
         android:layout_alignStart="@+id/run_fight__button"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/cz_atak2" />
 
     <ImageView
@@ -52,8 +52,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/attack_fight_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/fab_margin"
@@ -62,8 +62,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/run_fight__button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_margin="@dimen/fab_margin"
