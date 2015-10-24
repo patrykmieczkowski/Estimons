@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,7 @@ public class FightActivity extends AppCompatActivity {
     private RelativeLayout parent;
     private BeaconManager beaconManager;
     private BeaconConnectionManager beaconConnectionManager;
+    private FloatingActionButton attackButton, runButton;
     //    private Beacon opponentBeacon = null;
     private ProgressBar barEstimon, barOpponent;
     private long lastNotification = -1;
@@ -75,7 +77,9 @@ public class FightActivity extends AppCompatActivity {
 
         barEstimon = (ProgressBar) findViewById(R.id.yourPokeHp);
         barOpponent = (ProgressBar) findViewById(R.id.opponentHp);
-        findViewById(R.id.run).setOnClickListener(new View.OnClickListener() {
+        attackButton = (FloatingActionButton) findViewById(R.id.attack_fight_button);
+        runButton = (FloatingActionButton) findViewById(R.id.run_fight__button);
+        runButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick ");
@@ -83,7 +87,7 @@ public class FightActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.fight).setOnClickListener(new View.OnClickListener() {
+        attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick ");
@@ -93,6 +97,8 @@ public class FightActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     private void setupConnectionObservable() {
