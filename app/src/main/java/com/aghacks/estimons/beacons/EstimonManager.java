@@ -1,10 +1,11 @@
-package com.aghacks.estimons.lukmarr.ble;
+package com.aghacks.estimons.beacons;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.aghacks.estimons.database.DetectedPoke;
 import com.aghacks.estimons.Constants;
+import com.aghacks.estimons.game.OpponentFactory;
 import com.estimote.sdk.Beacon;
 
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.aghacks.estimons;
+package com.aghacks.estimons.util;
 
 import java.util.Random;
 

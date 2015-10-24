@@ -1,4 +1,4 @@
-package com.aghacks.estimons.lukmarr.zawadiaka;
+package com.aghacks.estimons.game;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aghacks.estimons.Constants;
 import com.aghacks.estimons.R;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Nearable;
@@ -40,7 +41,8 @@ public class FightActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick ");
-                onBackPressed();
+                Constants.fightEscaped = true;
+                finish();
             }
         });
 

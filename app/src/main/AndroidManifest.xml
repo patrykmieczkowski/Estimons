@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.aghacks.estimons" >
+    package="com.aghacks.estimons">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,20 +10,20 @@
 
     <uses-feature android:name="android.hardware.bluetooth" />
     <uses-feature android:name="android.bluetooth.le" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".lukmarr.ble.RangingActivity"
-            android:label="@string/app_name" >
+            android:name=".beacons.RangingActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,27 +31,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".lukmarr.EstidexActivity"
-            android:label="@string/title_activity_estidex" />
+            android:name=".game.FightActivity"
+            android:label="@string/title_activity_zawadiaka"/>
         <activity
-            android:name=".lukmarr.ble.NearableActivity"
-            android:label="@string/title_activity_nearable" >
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".lukmarr.zawadiaka.FightActivity"
-            android:label="@string/title_activity_zawadiaka" >
-        </activity>
-        <activity
-            android:name=".lukmarr.zawadiaka.ZawadiakaActivity"
-            android:label="@string/title_activity_zawadiaka" >
-        </activity>
+            android:name=".game.ZawadiakaActivity"
+            android:label="@string/title_activity_zawadiaka"/>
     </application>
 
 </manifest>

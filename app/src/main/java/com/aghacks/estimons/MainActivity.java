@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aghacks.estimons.database.DetectedPoke;
-import com.aghacks.estimons.lukmarr.beacons.BeaconConnectionManager;
-import com.aghacks.estimons.lukmarr.zawadiaka.ZawadiakaActivity;
+import com.aghacks.estimons.beacons.BeaconConnectionManager;
+import com.aghacks.estimons.game.ZawadiakaActivity;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.EstimoteSDK;
 import com.estimote.sdk.connection.Property;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         temperatureRefreshHandler = new Handler();
-
+//        Constants.fightEscaped = false;
         EstimoteSDK.initialize(this, "estimons-mzy", "e2c71dee0a386b6a548d0cde0754384a");
 
 

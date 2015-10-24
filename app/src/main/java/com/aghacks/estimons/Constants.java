@@ -14,4 +14,5 @@ public class Constants {
     public static final Region ALL_ESTIMOTE_BEACONS_REGION = new Region("rid", null, null, null);
     public static final int FIVE_MIN_IN_MS = 30000;
     public static final String STICKER_IDENTIFIER = "991aff45011b2f63";
+    public static boolean fightEscaped = false;
 }

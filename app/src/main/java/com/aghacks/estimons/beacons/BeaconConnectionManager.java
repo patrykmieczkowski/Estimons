@@ -1,4 +1,4 @@
-package com.aghacks.estimons.lukmarr.beacons;
+package com.aghacks.estimons.beacons;
 
 import android.app.Activity;
 import android.content.Context;
