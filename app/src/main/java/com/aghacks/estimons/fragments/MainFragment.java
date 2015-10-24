@@ -140,6 +140,7 @@ public class MainFragment extends Fragment {
                 if (countdownText.getVisibility() == View.VISIBLE)
                     countdownText.setVisibility(View.GONE);
                 isCountDownTimerRunning = false;
+                estimonMainImage.setImageResource(R.drawable.lepa1);
             }
         }
                 .start();
