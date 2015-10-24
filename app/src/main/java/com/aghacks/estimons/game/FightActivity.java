@@ -34,7 +34,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
     public static final String TAG = FightActivity.class.getSimpleName();
 
     BeaconMotionManager manager;
-    public TextView info, actionText;//, info3;
+    public TextView displayMessage, actionTextUser, actionTextOpp;//, info3;
     private RelativeLayout parent;
     private BeaconManager beaconManager;
     private BeaconConnectionManager beaconConnectionManager;
@@ -50,21 +50,23 @@ public class FightActivity extends AppCompatActivity implements Progressable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fight_new);
-        info = (TextView) findViewById(R.id.textView4);
-//        info3 = (TextView) findViewById(R.id.textView8);
         parent = (RelativeLayout) findViewById(R.id.parent);
         parent.setBackgroundColor(Color.LTGRAY);
         progressBar = (WhorlView) findViewById(R.id.progressBarRanging);
         Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
-        actionText = (TextView) findViewById(R.id.action_text);
-        actionText.setTypeface(myTypeface);
+        actionTextUser = (TextView) findViewById(R.id.action_text_user);
+        actionTextOpp = (TextView) findViewById(R.id.action_text_opp);
+        displayMessage = (TextView) findViewById(R.id.display_message_text);
+        actionTextUser.setTypeface(myTypeface);
+        actionTextOpp.setTypeface(myTypeface);
+        displayMessage.setTypeface(myTypeface);
 
         injectViews();
 //        setupTheGame();
         beaconManager = new BeaconManager(this);
 //        beaconManager.setForegroundScanPeriod(500, 0);
         handler = new Handler();
-        Constants.bindTextView(actionText, null, barOpponent, barEstimon, this);
+        Constants.bindTextView(actionTextUser, actionTextOpp, barOpponent, barEstimon, this);
         Constants.bindWhorl(this);
         showProgressBar(true);
     }
@@ -126,7 +128,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        info.setText(s);
+                        displayMessage.setText(s);
                     }
                 });
             }
@@ -140,11 +142,11 @@ public class FightActivity extends AppCompatActivity implements Progressable {
 
         if (Constants.connected) {
             showProgressBar(false);
-            actionText.setText("READY...");
+            displayMessage.setText("READY...");
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    actionText.setText("MOVE YOUR BEACON!");
+                    displayMessage.setText("MOVE YOUR BEACON!");
                     Constants.startAction = System.currentTimeMillis();
                 }
             }, RandUtils.from(1000, 6000));
@@ -236,7 +238,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
 
     private void opponentMove() {
         Log.d(TAG, "opponentMove ");
-        info.setText("Opponent moves...");
+        displayMessage.setText("Opponent moves...");
         GameEngine.canUserMove = false;
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -245,7 +247,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
                 if (GameEngine.gameEnd)
                     return;
                 GameEngine.canUserMove = true;
-                info.setText("Your move");
+                displayMessage.setText("Your move");
             }
         }, 3000);
     }
@@ -253,7 +255,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
     private void setupGameFailed() {
         Log.d(TAG, "setupGameFailed ");
 //        info.setTextSize(30.f);
-        info.setText("YOU LOOSE...");
+        displayMessage.setText("YOU LOOSE...");
         GameEngine.gameEnd = true;
         parent.setBackgroundColor(Color.DKGRAY);
     }
@@ -261,7 +263,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
     private void setupGameWon() {
         Log.d(TAG, "setupGameWon ");
 //        info.setTextSize(30.f);
-        info.setText("YOU WIN!!!");
+        displayMessage.setText("YOU WIN!!!");
         GameEngine.gameEnd = true;
         parent.setBackgroundColor(Color.DKGRAY);
     }

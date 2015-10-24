@@ -31,7 +31,7 @@ public class Constants {
     public static long endAction = 0;
     public static long startAction = 0;
     public static TextView userTextView;
-    //    public static TextView opponentTextView;
+    public static TextView opponentTextView;
     public static Activity activity;
     public static boolean startedGame = false;
     public static int userPoints = 0, oppPoints = 0;
@@ -60,19 +60,26 @@ public class Constants {
                     userTextView.setText(String.valueOf(userScore));
 
                     long opponentScore = RandUtils.getAIScore();
-                    if (opponentScore < userScore) {
-                        //opp win
-                        oppPoints++;
-                        userImageViewBar.setImageResource(userBar[oppPoints % userBar.length]);
+                    opponentTextView.setText(String.valueOf(opponentScore));
+
+                    if (oppPoints < 3 && userPoints < 3) {
+                        if (opponentScore < userScore) {
+                            //opp win
+                            oppPoints++;
+                            userImageViewBar.setImageResource(userBar[oppPoints % userBar.length]);
+                        } else {
+                            //user win
+                            userPoints++;
+                            oppImageViewBar.setImageResource(oppBar[userPoints % userBar.length]);
+                        }
                     } else {
-                        //user win
-                        userPoints++;
-                        oppImageViewBar.setImageResource(oppBar[userPoints % userBar.length]);
-                    }
-                    if (userPoints > userBar.length) {
-                        Log.i(TAG, "USER WIN ");
-                    } else if (oppPoints > userBar.length) {
-                        Log.i(TAG, "OPP WIN ");
+                        if (userPoints < oppPoints) {
+                            Log.i(TAG, "USER WIN ");
+                            userTextView.setText("YOU WIN");
+                        } else {
+                            Log.i(TAG, "OPP WIN ");
+                            opponentTextView.setText("YOU LOSE");
+                        }
                     }
 
                     HighScoreUtils.addToHighScore((int) userScore, activity);
@@ -88,7 +95,7 @@ public class Constants {
         Log.d(TAG, "bindTextView ");
         userTextView = textView1;
         activity = act;
-//        opponentTextView = t2;
+        opponentTextView = t2;
         userImageViewBar = userIm;
         oppImageViewBar = oppIm;
 
