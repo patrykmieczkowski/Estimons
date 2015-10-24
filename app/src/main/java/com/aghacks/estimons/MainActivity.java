@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (Constants.fightEscaped && isCountDownTimerRunning) {
                     estimonMainImage.setImageResource(R.drawable.najedzony2);
+
                     new CountDownTimer(5000, 1000) {
                         @Override
                         public void onTick(long millisUntilFinished) {
@@ -119,9 +120,9 @@ public class MainActivity extends AppCompatActivity {
                                 public void onFinish() {
                                     estimonMainImage.setImageResource(R.drawable.basic1);
                                 }
-                            };
+                            }.start();
                         }
-                    };
+                    }.start();
                     cancelCountDownTimer();
                     Snackbar.make(v, "Thank you for feeding me my lord!", Snackbar.LENGTH_LONG).show();
                 }
@@ -249,6 +250,17 @@ public class MainActivity extends AppCompatActivity {
                     countdownText.setVisibility(View.GONE);
                 isCountDownTimerRunning = false;
                 estimonMainImage.setImageResource(R.drawable.lepa1);
+                new CountDownTimer(20000, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        estimonMainImage.setImageResource(R.drawable.basic1);
+                    }
+                }.start();
 
             }
         }
