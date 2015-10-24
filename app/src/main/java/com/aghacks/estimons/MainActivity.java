@@ -3,6 +3,7 @@ package com.aghacks.estimons;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,9 +28,8 @@ import io.realm.Realm;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     private ImageView estimonMainImage;
-    private TextView beaconFarText, nameText;
-    FloatingActionButton attackButton, warmButton;
-    private int estimonRange = 2;
+    private TextView nameText, countdownText;
+    private FloatingActionButton attackButton, warmButton, eatButton;
     private BeaconConnectionManager beaconConnectionManager;
     private Handler temperatureRefreshHandler;
     private float temperatureValue;
@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         temperatureRefreshHandler = new Handler();
 //        Constants.fightEscaped = false;
         EstimoteSDK.initialize(this, "estimons-mzy", "e2c71dee0a386b6a548d0cde0754384a");
@@ -48,47 +46,19 @@ public class MainActivity extends AppCompatActivity {
         setUpEstimon((Beacon) getIntent().getParcelableExtra(Constants.NEARABLE_ESTIMON));
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.beacon_far_menu:
-                estimonRange = Config.ESTIMON_FAR;
-                break;
-            case R.id.beacon_immediate_menu:
-                estimonRange = Config.ESTIMON_IMMEDIATE;
-                break;
-            case R.id.beacon_near_menu:
-                estimonRange = Config.ESTIMON_NEAR;
-                break;
-        }
-
-        setUpEstimon((Beacon) getIntent().getParcelableExtra(Constants.NEARABLE_ESTIMON));
-        return super.onOptionsItemSelected(item);
-    }
-
     private void getViews() {
         estimonMainImage = (ImageView) findViewById(R.id.estimon_main_image);
-        beaconFarText = (TextView) findViewById(R.id.beacon_far_text);
 
         Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
         nameText = (TextView) findViewById(R.id.estimon_name_text);
+        countdownText = (TextView) findViewById(R.id.eat_countdown_timer_text);
         nameText.setTypeface(myTypeface);
+        countdownText.setTypeface(myTypeface);
 
         attackButton = (FloatingActionButton) findViewById(R.id.attack_button);
         warmButton = (FloatingActionButton) findViewById(R.id.warm_button);
+        eatButton = (FloatingActionButton) findViewById(R.id.eat_button);
+
         warmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,10 +76,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ZawadiakaActivity.class);
                 startActivity(i);
+                finish();
 
                 // if no nearby found show snackbar
 //                Snackbar.make(view, "No nearby enemies found", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
+            }
+        });
+        eatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Constants.fightEscaped) {
+                    estimonMainImage.setImageResource(R.drawable.najedzony1);
+                    Snackbar.make(v, "Thank you for feeding me my lord!", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -148,9 +128,8 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (attackButton != null && attackButton.isShown())
-                                Snackbar.make(attackButton,
-                                        "Temperature "
-                                                + temperatureValue, Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(attackButton, "Temperature "
+                                        + temperatureValue, Snackbar.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -180,39 +159,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "rssi: " + parcelableExtra.getRssi());
         Log.d(TAG, "describeContents: " + parcelableExtra.describeContents());
 
-
-        switch (estimonRange) {
-            case Config.ESTIMON_FAR:
-                // far
-                if (estimonMainImage.getVisibility() == View.VISIBLE)
-                    estimonMainImage.setVisibility(View.GONE);
-                if (beaconFarText.getVisibility() == View.GONE)
-                    beaconFarText.setVisibility(View.VISIBLE);
-                break;
-            case Config.ESTIMON_IMMEDIATE:
-                // immediate
-                if (estimonMainImage.getVisibility() == View.GONE)
-                    estimonMainImage.setVisibility(View.VISIBLE);
-                if (beaconFarText.getVisibility() == View.VISIBLE)
-                    beaconFarText.setVisibility(View.GONE);
-
-//                estimonMainImage.getLayoutParams().height = 700;
-//                estimonMainImage.requestLayout();
-                break;
-            case Config.ESTIMON_NEAR:
-                // near
-                if (estimonMainImage.getVisibility() == View.GONE)
-                    estimonMainImage.setVisibility(View.VISIBLE);
-                if (beaconFarText.getVisibility() == View.VISIBLE)
-                    beaconFarText.setVisibility(View.GONE);
-
-//                estimonMainImage.getLayoutParams().height = 1200;
-//                estimonMainImage.requestLayout();
-                break;
-            default:
-                // error occurred
-                break;
+        if (Constants.fightEscaped){
+            estimonMainImage.setImageResource(R.drawable.glodny1);
+            eatCountdownTimer();
+        } else {
+            estimonMainImage.setImageResource(R.drawable.basic1);
         }
+
     }
 
     private void checkBeaconInfo() {
@@ -241,5 +194,24 @@ public class MainActivity extends AppCompatActivity {
             } finally {
                 realm.commitTransaction();
             }
+    }
+
+    private void eatCountdownTimer(){
+
+        if (countdownText.getVisibility()==View.GONE)
+            countdownText.setVisibility(View.VISIBLE);
+
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countdownText.setText(String.valueOf(millisUntilFinished / 1000));
+            }
+
+            public void onFinish() {
+                if (countdownText.getVisibility()==View.VISIBLE)
+                    countdownText.setVisibility(View.GONE);
+            }
+        }
+                .start();
     }
 }

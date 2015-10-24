@@ -5,6 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="attack_icon_color">#530000</color>
-    <color name="warm_icon_color">#5F5843</color>
-    <color name="fish_icon_color">#1AA009</color>
+    <color name="warm_icon_color">#562F35</color>
+    <color name="fish_icon_color">#8C3FB0</color>
 </resources>
