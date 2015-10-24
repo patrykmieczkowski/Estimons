@@ -1,4 +1,4 @@
-package com.aghacks.estimons.lukmarr;
+package com.aghacks.estimons.database;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
