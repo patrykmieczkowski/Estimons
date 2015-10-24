@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.aghacks.estimons.database.DetectedPoke;
 import com.aghacks.estimons.lukmarr.Constants;
-import com.aghacks.estimons.lukmarr.ble.ZawadiakaActivity;
+import com.aghacks.estimons.lukmarr.zawadiaka.ZawadiakaActivity;
 import com.estimote.sdk.Beacon;
 
 import io.realm.Realm;
