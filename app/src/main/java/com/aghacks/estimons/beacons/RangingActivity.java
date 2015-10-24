@@ -54,6 +54,16 @@ public class RangingActivity extends AppCompatActivity {
         showProgressBar(true);
         beaconManager = new BeaconManager(this);
         beaconManager.setForegroundScanPeriod(500, 0);
+
+//        new android.os.Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d(TAG, "run ");
+//                Intent intent = new Intent(RangingActivity.this, CommonActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        }, 4000);
     }
 
     public void showProgressBar(final boolean show) {
@@ -117,6 +127,9 @@ public class RangingActivity extends AppCompatActivity {
                 for (Beacon b : list) {
                     if (!activityStarted && b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)) {
                         activityStarted = true;
+                        /**
+                         * IMPORTANT
+                         */
                         Constants.CYAN_MAC = b.getMacAddress();
                         Log.d(TAG, "discovered CYAN: " + b);
                         Intent intent = new Intent(RangingActivity.this, MainActivity.class);

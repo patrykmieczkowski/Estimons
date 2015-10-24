@@ -15,4 +15,9 @@ public class Constants {
     public static final int FIVE_MIN_IN_MS = 30000;
     public static final String STICKER_IDENTIFIER = "991aff45011b2f63";
     public static boolean fightEscaped = false;
+
+
+    public static final int MAIN = 0;
+    public static final int ZAWADIAKA = 1;
+    public static final int FIGHT = 2;
 }

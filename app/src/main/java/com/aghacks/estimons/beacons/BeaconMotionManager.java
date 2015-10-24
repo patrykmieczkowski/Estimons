@@ -1,9 +1,9 @@
 package com.aghacks.estimons.beacons;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.aghacks.estimons.Constants;
-import com.aghacks.estimons.game.FightActivity;
 import com.estimote.sdk.cloud.model.BeaconInfo;
 import com.estimote.sdk.connection.BeaconConnection;
 import com.estimote.sdk.connection.MotionState;
@@ -29,7 +29,7 @@ public class BeaconMotionManager {
     }
 
     private static final String TAG = BeaconMotionManager.class.getSimpleName();
-    private FightActivity context;
+    private Context context;
     private BeaconConnection connection;
 
 
@@ -37,7 +37,7 @@ public class BeaconMotionManager {
         return connection;
     }
 
-    public BeaconMotionManager(FightActivity activity) {
+    public BeaconMotionManager(Context activity) {
         this.context = activity;
     }
 
@@ -48,8 +48,8 @@ public class BeaconMotionManager {
                     @Override
                     public void onAuthorized(BeaconInfo beaconInfo) {
                         Log.d(TAG, "onAuthorized ");
-//                        EstimoteSDK.initialize(context, "estimons-mzy", "e2c71dee0a386b6a548d0cde0754384a");
-//                        connection.authenticate();
+                        if (listener != null)
+                            listener.broadcastActivity("on Authorized");
                     }
 
                     @Override

@@ -23,12 +23,13 @@ import com.aghacks.estimons.beacons.BeaconMotionManager;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
-import com.estimote.sdk.connection.MotionState;
 
 import java.util.List;
 
 public class FightActivity extends AppCompatActivity {
     public static final String TAG = FightActivity.class.getSimpleName();
+
+    BeaconMotionManager manager;
     public TextView info;
     private RelativeLayout parent;
     private BeaconManager beaconManager;
@@ -69,7 +70,6 @@ public class FightActivity extends AppCompatActivity {
             }
         });
         GameEngine.start(this);
-        setupConnectionObservable();
     }
 
     private void injectViews() {
@@ -103,7 +103,7 @@ public class FightActivity extends AppCompatActivity {
 
     private void setupConnectionObservable() {
         Log.d(TAG, "setupConnectionObservable ");
-        final BeaconMotionManager manager = new BeaconMotionManager(this);
+        manager = new BeaconMotionManager(this);
         manager.setListener(new BeaconMotionManager.MotionChangeEventListener() {
             @Override
             public void broadcastActivity(final String s) {
@@ -158,6 +158,8 @@ public class FightActivity extends AppCompatActivity {
                 beaconManager.startRanging(Constants.ALL_ESTIMOTE_BEACONS_REGION);
             }
         });
+
+        setupConnectionObservable();
     }
 
     @Override
