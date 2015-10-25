@@ -3,6 +3,7 @@ package com.aghacks.estimons.beacons;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.DrawableRes;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,19 +33,19 @@ public class MagnetHelper {
      * @param context
      * @param time
      */
-    public static void show(Handler handler, final Context context, final long time) {
+    public static void show(Handler handler, final Context context,
+                            @DrawableRes final int imageRes, final long time) {
         Log.d(TAG, "showMagnet ");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 iconView = new ImageView(context);
-                iconView.setImageResource(R.drawable.tick);
+                iconView.setImageResource(imageRes);
                 mMagnet = new Magnet.Builder(context)
                         .setIconView(iconView) // required
-                        .withResource(0, R.drawable.tick)
-                        .withResource(1, R.drawable.abc_btn_radio_to_on_mtrl_015)
-                        .withResource(2, R.drawable.abc_btn_radio_material)
-
+                        .withResource(0, imageRes)
+                        .withResource(1, imageRes)
+                        .withResource(2, imageRes)
                         .setRemoveIconResId(R.drawable.trash)
                         .setIconCallback(new IconCallback() {
                             @Override
