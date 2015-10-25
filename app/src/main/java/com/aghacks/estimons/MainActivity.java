@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onBackPressed");
 
         MagnetHelper.show(new Handler(Looper.getMainLooper()), getApplicationContext(),
-                R.drawable.male_logo, 7000);
+                R.drawable.maly_icon, 7000);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
