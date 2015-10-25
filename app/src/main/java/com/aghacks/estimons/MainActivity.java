@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler temperatureRefreshHandler;
     private float temperatureValue;
 
+    boolean hasIntentFromMagnet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         getViews();
         setUpEstimon((Beacon) getIntent().getParcelableExtra(Constants.NEARABLE_ESTIMON));
         if (getIntent().hasExtra(Constants.FEED_ME)) {
+            hasIntentFromMagnet = true;
             estimonMainImage.setImageResource(R.drawable.glodny2);
         }
     }
@@ -103,9 +105,10 @@ public class MainActivity extends AppCompatActivity {
         eatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Constants.fightEscaped && isCountDownTimerRunning) {
+                Log.d(TAG, "Feed cat clicked");
+                if (hasIntentFromMagnet || Constants.fightEscaped && isCountDownTimerRunning) {
                     estimonMainImage.setImageResource(R.drawable.najedzony2);
-
+                    hasIntentFromMagnet = false;
                     new CountDownTimer(5000, 1000) {
                         @Override
                         public void onTick(long millisUntilFinished) {
@@ -286,7 +289,8 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         Log.d(TAG, "onBackPressed");
 
-        MagnetHelper.show(new Handler(Looper.getMainLooper()), getApplicationContext(), 7000);
+        MagnetHelper.show(new Handler(Looper.getMainLooper()), getApplicationContext(),
+                R.drawable.male_logo, 7000);
         super.onBackPressed();
     }
 }
