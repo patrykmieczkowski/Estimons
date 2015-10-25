@@ -57,86 +57,140 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getViews() {
+        Log.d(TAG, "getViews ");
         estimonMainImage = (ImageView) findViewById(R.id.estimon_main_image);
-
+//        estimonMainImage.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, final MotionEvent event) {
+//
+//                Log.d(TAG, "ACTION_DOWN");
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        switch (event.getActionMasked()) {
+//                            case MotionEvent.ACTION_DOWN: {
+//                                estimonMainImage.setImageResource(R.drawable.basic1);
+//                                break;
+//                            }
+//                            default:
+//                                estimonMainImage.setImageResource(R.drawable.basic1);
+//                                break;
+//                        }
+//                    }
+//                });
+//
+//
+//                return true;
+//            }
+//        });
         Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
-        nameText = (TextView) findViewById(R.id.estimon_name_text);
-        countdownText = (TextView) findViewById(R.id.eat_countdown_timer_text);
+        nameText = (TextView)
+
+                findViewById(R.id.estimon_name_text);
+
+        countdownText = (TextView)
+
+                findViewById(R.id.eat_countdown_timer_text);
+
         nameText.setTypeface(myTypeface);
 
-        nameText.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Intent oo = new Intent(MainActivity.this, HighScoreActivity.class);
-                startActivity(oo);
-                return false;
-            }
-        });
+        nameText.setOnLongClickListener(new View.OnLongClickListener()
+
+                                        {
+                                            @Override
+                                            public boolean onLongClick(View v) {
+                                                Intent oo = new Intent(MainActivity.this, HighScoreActivity.class);
+                                                startActivity(oo);
+                                                return false;
+                                            }
+                                        }
+
+        );
         countdownText.setTypeface(myTypeface);
 
-        attackButton = (FloatingActionButton) findViewById(R.id.attack_button);
-        warmButton = (FloatingActionButton) findViewById(R.id.warm_button);
-        eatButton = (FloatingActionButton) findViewById(R.id.eat_button);
+        attackButton = (FloatingActionButton)
 
-        warmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                temperatureRefreshHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshTemperature();
-                    }
-                });
+                findViewById(R.id.attack_button);
 
-            }
-        });
-        attackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, ZawadiakaActivity.class);
-                startActivity(i);
-                finish();
+        warmButton = (FloatingActionButton)
 
-                // if no nearby found show snackbar
+                findViewById(R.id.warm_button);
+
+        eatButton = (FloatingActionButton)
+
+                findViewById(R.id.eat_button);
+
+        warmButton.setOnClickListener(new View.OnClickListener()
+
+                                      {
+                                          @Override
+                                          public void onClick(View v) {
+                                              temperatureRefreshHandler.post(new Runnable() {
+                                                  @Override
+                                                  public void run() {
+                                                      refreshTemperature();
+                                                  }
+                                              });
+
+                                          }
+                                      }
+
+        );
+        attackButton.setOnClickListener(new View.OnClickListener()
+
+                                        {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Intent i = new Intent(MainActivity.this, ZawadiakaActivity.class);
+                                                startActivity(i);
+                                                finish();
+
+                                                // if no nearby found show snackbar
 //                Snackbar.make(view, "No nearby enemies found", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-            }
-        });
-        eatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Feed cat clicked");
-                if (hasIntentFromMagnet || Constants.fightEscaped && isCountDownTimerRunning) {
-                    estimonMainImage.setImageResource(R.drawable.najedzony2);
-                    hasIntentFromMagnet = false;
-                    new CountDownTimer(5000, 1000) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
+                                            }
+                                        }
 
-                        }
+        );
+        eatButton.setOnClickListener(new View.OnClickListener()
 
-                        @Override
-                        public void onFinish() {
-                            estimonMainImage.setImageResource(R.drawable.zabawowy2);
-                            new CountDownTimer(5000, 1000) {
+                                     {
+                                         @Override
+                                         public void onClick(View v) {
+                                             Log.d(TAG, "Feed cat clicked");
+                                             if (hasIntentFromMagnet || Constants.fightEscaped && isCountDownTimerRunning) {
+                                                 estimonMainImage.setImageResource(R.drawable.najedzony2);
+                                                 hasIntentFromMagnet = false;
+                                                 new CountDownTimer(5000, 1000) {
+                                                     @Override
+                                                     public void onTick(long millisUntilFinished) {
 
-                                @Override
-                                public void onTick(long millisUntilFinished) {
+                                                     }
 
-                                }
+                                                     @Override
+                                                     public void onFinish() {
+                                                         estimonMainImage.setImageResource(R.drawable.zabawowy2);
+                                                         new CountDownTimer(5000, 1000) {
 
-                                @Override
-                                public void onFinish() {
-                                    estimonMainImage.setImageResource(R.drawable.basic1);
-                                }
-                            }.start();
-                        }
-                    }.start();
-                    cancelCountDownTimer();
-                    Snackbar.make(v, "Thank you for feeding me my lord!", Snackbar.LENGTH_LONG).show();
-                }
-            }
-        });
+                                                             @Override
+                                                             public void onTick(long millisUntilFinished) {
+
+                                                             }
+
+                                                             @Override
+                                                             public void onFinish() {
+                                                                 estimonMainImage.setImageResource(R.drawable.basic1);
+                                                             }
+                                                         }.start();
+                                                     }
+                                                 }.start();
+                                                 cancelCountDownTimer();
+                                                 Snackbar.make(v, "Thank you for feeding me my lord!", Snackbar.LENGTH_LONG).show();
+                                             }
+                                         }
+                                     }
+
+        );
     }
 
     @Override
@@ -169,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                     temperatureValue = value;
+                    handlerImageForTemperature(value);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -189,6 +244,20 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(attackButton,
                     "Temperature not available yet", Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    private void handlerImageForTemperature(Float value) {
+        Log.d(TAG, "handlerImageForTemperature " + String.valueOf(value));
+        if (value < 14f)
+            estimonMainImage.setImageResource(R.drawable.zimny2);
+        if (value < 17f)
+            estimonMainImage.setImageResource(R.drawable.zimny1);
+        if (value < 23f)
+            estimonMainImage.setImageResource(R.drawable.basic1);
+        if (value < 27f)
+            estimonMainImage.setImageResource(R.drawable.cieply1);
+        if (value > 27)
+            estimonMainImage.setImageResource(R.drawable.cieply2);
     }
 
     private void setUpEstimon(Beacon parcelableExtra) {
@@ -277,7 +346,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cancelCountDownTimer() {
-
+        if (countDownTimer == null)
+            return;
         countDownTimer.cancel();
         isCountDownTimerRunning = false;
 
@@ -291,6 +361,13 @@ public class MainActivity extends AppCompatActivity {
 
         MagnetHelper.show(new Handler(Looper.getMainLooper()), getApplicationContext(),
                 R.drawable.male_logo, 7000);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
         super.onBackPressed();
+
     }
 }

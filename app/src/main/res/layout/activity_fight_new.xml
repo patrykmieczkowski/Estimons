@@ -4,7 +4,7 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_activity_background"
+    android:background="@drawable/zawadiaka_activity_background"
     tools:context="com.aghacks.estimons.game.FightActivity">
 
     <TextView

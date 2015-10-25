@@ -136,6 +136,7 @@ public class RangingActivity extends AppCompatActivity {
                         Intent intent = new Intent(RangingActivity.this, MainActivity.class);
                         intent.putExtra(Constants.NEARABLE_ESTIMON, b);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
                         finish();
                     }
                 }
@@ -143,7 +144,8 @@ public class RangingActivity extends AppCompatActivity {
         });
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
-            public void onServiceReady() {beaconManager.startRanging(Constants.CYAN_ESTIMOTE_REGION);
+            public void onServiceReady() {
+                beaconManager.startRanging(Constants.CYAN_ESTIMOTE_REGION);
 //                beaconManager.startNearableDiscovery();
             }
         });

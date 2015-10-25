@@ -51,7 +51,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fight_new);
         parent = (RelativeLayout) findViewById(R.id.parent);
-        parent.setBackgroundColor(Color.LTGRAY);
+        parent.setBackgroundResource(R.drawable.main_activity_background);
         progressBar = (WhorlView) findViewById(R.id.progressBarRanging);
         Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
         actionTextUser = (TextView) findViewById(R.id.action_text_user);
@@ -157,8 +157,6 @@ public class FightActivity extends AppCompatActivity implements Progressable {
                     Constants.startAction = System.currentTimeMillis();
                 }
             }, RandUtils.from(1000, 6000));
-
-
         }
     }
 
@@ -277,9 +275,22 @@ public class FightActivity extends AppCompatActivity implements Progressable {
 
     @Override
     public void onBackPressed() {
-        Constants.fightEscaped = true;
-        Intent i = new Intent(FightActivity.this, MainActivity.class);
-        startActivity(i);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Constants.fightEscaped = true;
+                Intent i = new Intent(FightActivity.this, MainActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+            }
+        });
+
         finish();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

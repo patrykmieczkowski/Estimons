@@ -34,11 +34,13 @@ public class ZawadiakaActivity extends AppCompatActivity {
     private List<String> detectedPokesMacs = new ArrayList<>();
     private TextView rangingEstimonText;
     private boolean startedNewActivity = false;
+
     @Override
     protected void onStop() {
         beaconManager.disconnect();
         super.onStop();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +106,7 @@ public class ZawadiakaActivity extends AppCompatActivity {
         if (!beaconManager.isBluetoothEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, 1234);
+            overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
         } else {
             connectToService();
         }
@@ -137,23 +140,34 @@ public class ZawadiakaActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
     private void connectToService() {
-//        toolbar.setSubtitle("Scanning...");
+        Log.d(TAG, "connectToService ");
 
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
-                for (Beacon b : list) {
+                for (final Beacon b : list) {
 
                     if (!startedNewActivity && !b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)) {
                         startedNewActivity = true;
                         showProgressBar(false);
                         Log.d(TAG, "discovered OPPONENT for wpierdol: " + b);
-                        Intent intent = new Intent(ZawadiakaActivity.this, FightActivity.class);
-                        intent.putExtra(Constants.NEARABLE_ESTIMON, b);
-
-                        startActivity(intent);
-                        finish();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(ZawadiakaActivity.this, FightActivity.class);
+                                intent.putExtra(Constants.NEARABLE_ESTIMON, b);
+                                startActivity(intent);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                finish();
+                            }
+                        });
                     }
                 }
             }
