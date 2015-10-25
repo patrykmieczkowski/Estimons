@@ -223,10 +223,10 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                     temperatureValue = value;
-                    handlerImageForTemperature(value);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            handlerImageForTemperature(value);
                             if (attackButton != null && attackButton.isShown())
                                 Snackbar.make(attackButton, "Temperature "
                                         + temperatureValue, Snackbar.LENGTH_LONG).show();

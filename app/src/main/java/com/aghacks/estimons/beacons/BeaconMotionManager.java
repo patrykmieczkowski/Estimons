@@ -89,17 +89,16 @@ public class BeaconMotionManager {
                                         exception.printStackTrace();
                                         Log.e(TAG, "error code: " + exception.errorCode);
                                         if (listener != null)
-                                            listener.broadcastActivity("MOTION DISABLED");
+                                            listener.broadcastActivity("disconnected");
                                     }
                                 });
-
                     }
 
                     @Override
                     public void onAuthenticationError(EstimoteDeviceException e) {
                         Log.d(TAG, "Authentication Error: " + e);
                         if (listener != null)
-                            listener.broadcastActivity("AUTHENTICATION ERROR");
+                            listener.broadcastActivity("authenticating....");
                     }
 
                     @Override

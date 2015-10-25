@@ -19,6 +19,7 @@ public class HighScoreUtils {
     }
 
     public static void addToHighScore(Integer score, Context context) {
+        if (score < 0 || score > 13000) return;
         Log.d(TAG, "addToHighScore ");
         Realm r = Realm.getInstance(context);
         r.beginTransaction();
