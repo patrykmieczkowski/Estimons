@@ -119,7 +119,7 @@ public class RangingActivity extends AppCompatActivity {
     }
 
     private void connectToService() {
-//        toolbar.setSubtitle("Scanning...");
+        Log.d(TAG, "connectToService ");
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
@@ -127,6 +127,7 @@ public class RangingActivity extends AppCompatActivity {
                 for (Beacon b : list) {
                     if (!activityStarted && b.getMacAddress().toStandardString().equals(Constants.CYAN_MAC_STRING)) {
                         activityStarted = true;
+
                         /**
                          * IMPORTANT
                          */
@@ -142,8 +143,7 @@ public class RangingActivity extends AppCompatActivity {
         });
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
-            public void onServiceReady() {
-                beaconManager.startRanging(Constants.ALL_ESTIMOTE_BEACONS_REGION);
+            public void onServiceReady() {beaconManager.startRanging(Constants.CYAN_ESTIMOTE_REGION);
 //                beaconManager.startNearableDiscovery();
             }
         });

@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
-import magneto.lukmarr.pl.magneto.R;
+import com.aghacks.estimons.R;
 
 
 /**

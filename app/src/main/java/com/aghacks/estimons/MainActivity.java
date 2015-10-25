@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aghacks.estimons.beacons.BeaconConnectionManager;
+import com.aghacks.estimons.beacons.MagnetHelper;
 import com.aghacks.estimons.database.DetectedPoke;
 import com.aghacks.estimons.game.HighScoreActivity;
 import com.aghacks.estimons.game.ZawadiakaActivity;
@@ -37,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private float temperatureValue;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         checkBeaconInfo();
         getViews();
         setUpEstimon((Beacon) getIntent().getParcelableExtra(Constants.NEARABLE_ESTIMON));
-        if(getIntent().hasExtra(Constants.FEED_ME)){
+        if (getIntent().hasExtra(Constants.FEED_ME)) {
             estimonMainImage.setImageResource(R.drawable.glodny2);
         }
     }
@@ -281,5 +282,11 @@ public class MainActivity extends AppCompatActivity {
             countdownText.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onBackPressed() {
+        Log.d(TAG, "onBackPressed");
 
+        MagnetHelper.show(new Handler(Looper.getMainLooper()), getApplicationContext(), 7000);
+        super.onBackPressed();
+    }
 }

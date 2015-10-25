@@ -1,9 +1,8 @@
 package com.aghacks.estimons.beacons;
 
-import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,37 +15,31 @@ import com.aghacks.estimons.magneto.Magnet;
 
 /**
  * Created by lukasz on 25.10.15.
+ *
  */
-public class AttentionService extends IntentService {
-    public static final String TAG = AttentionService.class.getSimpleName();
-    private static Magnet mMagnet;
-    private static Handler handler = new Handler(Looper.getMainLooper());
+public class MagnetHelper {
+    private MagnetHelper() {
+    }
+
+    public static final String TAG = MagnetHelper.class.getSimpleName();
     private static ImageView iconView;
-    private static final int SECONDS = 1000;
+    private static Magnet mMagnet;
 
     /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
+     * Shows magnet
      *
-     * @param name Used to name the worker thread, important only for debugging.
+     * @param handler
+     * @param context
+     * @param time
      */
-    public AttentionService(String name) {
-        super(name);
-    }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "onHandleIntent ");
-    }
-
-    @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
+    public static void show(Handler handler, final Context context, final long time) {
+        Log.d(TAG, "showMagnet ");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                iconView = new ImageView(AttentionService.this);
+                iconView = new ImageView(context);
                 iconView.setImageResource(R.drawable.tick);
-                mMagnet = new Magnet.Builder(AttentionService.this)
+                mMagnet = new Magnet.Builder(context)
                         .setIconView(iconView) // required
                         .withResource(0, R.drawable.tick)
                         .withResource(1, R.drawable.abc_btn_radio_to_on_mtrl_015)
@@ -67,10 +60,10 @@ public class AttentionService extends IntentService {
                             @Override
                             public void onIconClick(View icon, float iconXPose, float iconYPose) {
                                 //// TODO: 2015-10-14 new view for clickable notification
-                                Intent intent = new Intent(AttentionService.this, MainActivity.class);
+                                Intent intent = new Intent(context, MainActivity.class);
                                 intent.putExtra(Constants.FEED_ME, true);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
+                                context.startActivity(intent);
                                 mMagnet.destroy();
                             }
 
@@ -85,6 +78,7 @@ public class AttentionService extends IntentService {
 
                 mMagnet.show();
             }
-        }, 20 * SECONDS);
+        }, time);
     }
 }
+

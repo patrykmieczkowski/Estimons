@@ -32,8 +32,6 @@ public class HighScoreActivity extends AppCompatActivity {
         }
 
         realm.commitTransaction();
-
-
         r.setLayoutManager(new LinearLayoutManager(this));
         r.setAdapter(new HighscoreAdapter(list));
     }

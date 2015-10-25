@@ -20,6 +20,8 @@ public class Constants {
     public static final String FEED_ME = "FEED_ME";
     public static MacAddress CYAN_MAC;
     public static final Region ALL_ESTIMOTE_BEACONS_REGION = new Region("rid", null, null, null);
+    public static final Region CYAN_ESTIMOTE_REGION = new Region("rid", null, 22507, 21026);
+
     public static final int FIVE_MIN_IN_MS = 30000;
     public static final String STICKER_IDENTIFIER = "991aff45011b2f63";
     public static boolean fightEscaped = false;

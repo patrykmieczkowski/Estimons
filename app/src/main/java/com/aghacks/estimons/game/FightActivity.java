@@ -71,6 +71,13 @@ public class FightActivity extends AppCompatActivity implements Progressable {
         showProgressBar(true);
     }
 
+    @Override
+    protected void onStop() {
+//        beaconConnectionManager.setMotionListener(null);
+        beaconManager.disconnect();
+        super.onStop();
+    }
+
     private void setupTheGame() {
         Log.d(TAG, "setupTheGame ");
         GameEngine.clearAll();
