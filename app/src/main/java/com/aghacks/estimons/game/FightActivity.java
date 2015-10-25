@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.aghacks.estimons.Progressable;
 import com.aghacks.estimons.R;
 import com.aghacks.estimons.beacons.BeaconConnectionManager;
 import com.aghacks.estimons.beacons.BeaconMotionManager;
+import com.aghacks.estimons.util.HighScoreUtils;
 import com.aghacks.estimons.util.RandUtils;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
@@ -46,6 +48,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
     private android.os.Handler handler;
     private WhorlView progressBar;
 
+    public   int userPoints = 0, oppPoints = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +69,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
         beaconManager = new BeaconManager(this);
 //        beaconManager.setForegroundScanPeriod(500, 0);
         handler = new Handler();
-        Constants.bindTextView(actionTextUser, actionTextOpp, barOpponent, barEstimon, this);
+        Constants.bindTextView(actionTextOpp, actionTextUser, barOpponent, barEstimon, this);
         Constants.bindWhorl(this);
         showProgressBar(true);
     }
@@ -293,4 +296,56 @@ public class FightActivity extends AppCompatActivity implements Progressable {
         super.onNewIntent(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
+
+    public synchronized void calculate(long userScore) {
+        Log.d(TAG, "calculate ");
+
+        if (String.valueOf(userScore).length() < 5)
+            actionTextUser.setText(String.valueOf(userScore));
+
+        long opponentScore = RandUtils.getAIScore();
+        actionTextOpp.setText(String.valueOf(opponentScore));
+
+        if (oppPoints < 3 && userPoints < 3) {
+            if (opponentScore < userScore) {
+                //opp win
+                oppPoints++;
+                barEstimon.setImageResource(userBar[ oppPoints %  userBar.length]);
+            } else {
+                //user win
+                userPoints++;
+                barOpponent.setImageResource(oppBar[ userPoints % userBar.length]);
+            }
+        } else {
+            if (userPoints < oppPoints) {
+                Log.i(TAG, "USER WIN ");
+                actionTextUser.setText("YOU WIN");
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(TAG, "run ");
+                        onBackPressed();
+                    }
+                }, 3000);
+            } else {
+                Log.i(TAG, "OPP WIN ");
+                actionTextOpp.setText("YOU LOSE");
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(TAG, "run ");
+                         onBackPressed();
+                    }
+                }, 3000);
+            }
+        }
+
+        HighScoreUtils.addToHighScore((int) userScore, this);
+         delay(5000);
+    }
+    public static final int[] userBar = new int[]{
+            R.drawable.cz_health1, R.drawable.cz_health3, R.drawable.cz_health4, R.drawable.cz_health6,};
+    public static final int[] oppBar = new int[]{
+            R.drawable.n_health1, R.drawable.n_health3, R.drawable.n_health4, R.drawable.n_health6,};
+
 }

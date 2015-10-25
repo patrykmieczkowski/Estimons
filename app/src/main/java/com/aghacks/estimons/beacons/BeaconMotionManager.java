@@ -122,8 +122,8 @@ public class BeaconMotionManager {
             public void onValueReceived(final MotionState value) {
                 Log.d(TAG, "onValueReceived ");
                 if (listener != null) {
-                    String s = value == MotionState.NOT_MOVING ? "HOLD" : "MOVE";
-                    listener.broadcastActivity(s);
+//                    String s = value == MotionState.NOT_MOVING ? "HOLD" : "MOVE";
+//                    listener.broadcastActivity(s);
                     Constants.endAction = System.currentTimeMillis();
                     if (Constants.startedGame)
                         Constants.calculateAccuracy();
