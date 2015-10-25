@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                                                      }
                                                  }.start();
                                                  cancelCountDownTimer();
-                                                 Snackbar.make(v, "Thank you for feeding me my lord!", Snackbar.LENGTH_LONG).show();
+                                                 Snackbar.make(v, "Thank you!!!", Snackbar.LENGTH_LONG).show();
                                              }
                                          }
                                      }
@@ -227,9 +227,9 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             handlerImageForTemperature(value);
-                            if (attackButton != null && attackButton.isShown())
-                                Snackbar.make(attackButton, "Temperature "
-                                        + temperatureValue, Snackbar.LENGTH_LONG).show();
+//                            if (attackButton != null && attackButton.isShown())
+//                                Snackbar.make(attackButton, "Temperature "
+//                                        + temperatureValue, Snackbar.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -241,8 +241,15 @@ public class MainActivity extends AppCompatActivity {
             });
         } else {
             Log.e(TAG, "refreshTemperature failed due to null object reference");
-            Snackbar.make(attackButton,
-                    "Temperature not available yet", Snackbar.LENGTH_LONG).show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    estimonMainImage.setImageResource(R.drawable.zabawowy2);
+//                    Snackbar.make(attackButton,
+//                            "Temperaturemperature not available yet", Snackbar.LENGTH_LONG).show();
+                }
+            });
+
         }
     }
 

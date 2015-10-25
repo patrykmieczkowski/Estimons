@@ -51,7 +51,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fight_new);
         parent = (RelativeLayout) findViewById(R.id.parent);
-        parent.setBackgroundResource(R.drawable.main_activity_background);
+        parent.setBackgroundResource(R.drawable.zawadiaka_activity_background);
         progressBar = (WhorlView) findViewById(R.id.progressBarRanging);
         Typeface myTypeface = Typeface.createFromAsset(getAssets(), "kindergarten.ttf");
         actionTextUser = (TextView) findViewById(R.id.action_text_user);
@@ -60,7 +60,7 @@ public class FightActivity extends AppCompatActivity implements Progressable {
         actionTextUser.setTypeface(myTypeface);
         actionTextOpp.setTypeface(myTypeface);
         displayMessage.setTypeface(myTypeface);
-
+        Constants.setup();
         injectViews();
 //        setupTheGame();
         beaconManager = new BeaconManager(this);

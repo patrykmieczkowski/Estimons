@@ -1,10 +1,12 @@
 package com.aghacks.estimons;
 
-import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aghacks.estimons.game.FightActivity;
 import com.aghacks.estimons.util.HighScoreUtils;
 import com.aghacks.estimons.util.RandUtils;
 import com.estimote.sdk.MacAddress;
@@ -35,7 +37,7 @@ public class Constants {
     public static long startAction = 0;
     public static TextView userTextView;
     public static TextView opponentTextView;
-    public static Activity activity;
+    public static FightActivity activity;
     public static boolean startedGame = false;
     public static int userPoints = 0, oppPoints = 0;
 
@@ -47,6 +49,8 @@ public class Constants {
     public static void setup() {
         userPoints = 0;
         oppPoints = 0;
+        endAction = 0;
+        startAction = 0;
     }
 
     public static boolean frozen = false;
@@ -60,7 +64,8 @@ public class Constants {
                 @Override
                 public void run() {
                     Log.d(TAG, "run ");
-                    userTextView.setText(String.valueOf(userScore));
+                    if (String.valueOf(userScore).length() < 5)
+                        userTextView.setText(String.valueOf(userScore));
 
                     long opponentScore = RandUtils.getAIScore();
                     opponentTextView.setText(String.valueOf(opponentScore));
@@ -79,9 +84,23 @@ public class Constants {
                         if (userPoints < oppPoints) {
                             Log.i(TAG, "USER WIN ");
                             userTextView.setText("YOU WIN");
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.d(TAG, "run ");
+                                    activity.onBackPressed();
+                                }
+                            }, 3000);
                         } else {
                             Log.i(TAG, "OPP WIN ");
                             opponentTextView.setText("YOU LOSE");
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.d(TAG, "run ");
+                                    activity.onBackPressed();
+                                }
+                            }, 3000);
                         }
                     }
 
@@ -94,7 +113,7 @@ public class Constants {
 
     public static void bindTextView(TextView textView1, TextView t2,
                                     ImageView userIm, ImageView oppIm,
-                                    Activity act) {
+                                    FightActivity act) {
         Log.d(TAG, "bindTextView ");
         userTextView = textView1;
         activity = act;
